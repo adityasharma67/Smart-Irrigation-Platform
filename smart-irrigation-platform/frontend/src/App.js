@@ -7,6 +7,9 @@ import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import CreateProposal from "./components/CreateProposal";
 import WaterUsage from "./components/WaterUsage";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Support from "./components/Support";
 
 function App() {
   const [token, setToken] = useState(() => {
@@ -102,13 +105,7 @@ function App() {
             <Route
               path="/create-proposal"
               element={
-                token && user?.role === "provider" ? (
-                  <CreateProposal token={token} />
-                ) : token ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
+                token ? <CreateProposal token={token} /> : <Navigate to="/login" replace />
               }
             />
             <Route
@@ -121,6 +118,9 @@ function App() {
                 )
               }
             />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/support" element={<Support />} />
           </Routes>
         </div>
       </div>

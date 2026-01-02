@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import wateringImg from "../assets/watering.jpg";
 
 export default function WaterUsage({ token, user }) {
   const [waterUsage, setWaterUsage] = useState([]);
@@ -27,6 +28,25 @@ export default function WaterUsage({ token, user }) {
       console.error("Error fetching water usage:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteUsage = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this water usage entry?")) return;
+
+    try {
+      await axios.delete(`http://localhost:4000/api/water-usage/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setWaterUsage((prev) =>
+        prev.filter((w) => String(w._id || w.id) !== String(id))
+      );
+    } catch (err) {
+      console.error("Error deleting water usage:", err);
+      const serverMessage = err.response?.data?.message;
+      setError(serverMessage || "Failed to delete water usage. Please try again.");
     }
   };
 
@@ -177,7 +197,8 @@ export default function WaterUsage({ token, user }) {
                   alt={usage.field}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x250?text=Farm+Field";
+                    e.target.onerror = null;
+                    e.target.src = wateringImg;
                   }}
                 />
               </div>
@@ -190,6 +211,14 @@ export default function WaterUsage({ token, user }) {
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(usage.status)}`}>
                     {usage.status}
                   </span>
+                  {user && (
+                    <button
+                      onClick={() => handleDeleteUsage(usage._id || usage.id)}
+                      className="text-red-600 text-sm font-semibold hover:underline"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
