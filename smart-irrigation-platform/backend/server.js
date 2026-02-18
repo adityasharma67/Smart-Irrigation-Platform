@@ -14,8 +14,12 @@ const usersRoutes = require("./routes/users");
 const app = express();
 
 // Middleware
+const allowedOrigins = process.env.NODE_ENV === "production" 
+  ? [process.env.RENDER_EXTERNAL_URL || "http://localhost:4000"]
+  : ["http://localhost:3000", "http://localhost:4000"];
+
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -39,17 +43,27 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", mongoConnected: isMongoConnected() });
 });
 
-// Serve frontend build
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Serve frontend build (Create React App uses 'build' folder)
+const frontendBuildPath = path.join(__dirname, "../frontend/build");
+app.use(express.static(frontendBuildPath));
 
+// SPA catch-all route (must be after all API routes)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  res.sendFile(path.join(frontendBuildPath, "index.html"));
 });
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📊 MongoDB: ${isMongoConnected() ? "Connected" : "Not connected (using in-memory storage)"}`);
+  console.log(`📁 Frontend build path: ${frontendBuildPath}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+  const fs = require("fs");
+  if (!fs.existsSync(frontendBuildPath)) {
+    console.warn(`⚠️  Frontend build folder not found at ${frontendBuildPath}`);
+  } else {
+    console.log(`✓ Frontend build folder exists`);
+  }
 });
 
 

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: smart-irrigation-platform
+    runtime: node
+    plan: free
+    buildCommand: >
+      npm install &&
+      cd frontend &&
+      npm install &&
+      npm run build &&
+      cd ../backend &&
+      npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
