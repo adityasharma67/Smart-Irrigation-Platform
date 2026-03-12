@@ -1,4 +1,4 @@
-# Smart Irrigation Platform
+# Smart Irrigation Platform   Live link- https://smart-irrigation-platform-3.onrender.com
 
 Smart Irrigation Platform is a full-stack web application for monitoring and managing irrigation and water usage for agricultural or garden deployments. It provides user authentication, an interactive dashboard, proposal management for irrigation plans, and water-usage tracking to help optimize scheduling and conserve water.
 
