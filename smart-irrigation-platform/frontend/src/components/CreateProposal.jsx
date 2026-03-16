@@ -2,19 +2,29 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import API_BASE from "../config/api";
+
+// These images help visualize the crops the user selects
 import wheatImg from "../assets/wheat.jpg";
 import riceImg from "../assets/rice.jpg";
 import cornImg from "../assets/corn.jpg";
 import barleyImg from "../assets/barley.jpg";
 import otherImg from "../assets/other.jpg";
 
+const localMap = { wheat: wheatImg, rice: riceImg, corn: cornImg, maize: cornImg, barley: barleyImg, other: otherImg };
+
+// Helper to get the right preview image for a crop
+function getCropImg(cropName) {
+  const key = String(cropName || "").toLowerCase();
+  return localMap[key] || otherImg;
+}
+
+// Common crops that we support by default
+const CROP_OPTIONS = ["Wheat", "Rice", "Corn", "Maize", "Barley", "Other"];
+
 export default function CreateProposal({ token }) {
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    price: "",
-    targetCrops: [],
-  });
+  // Local state for our proposal form
+  const [form, setForm] = useState({ title: "", description: "", price: "", targetCrops: [] });
   const [otherSelected, setOtherSelected] = useState(false);
   const [otherCrop, setOtherCrop] = useState("");
   const [error, setError] = useState("");
@@ -23,38 +33,35 @@ export default function CreateProposal({ token }) {
   const [createdPayload, setCreatedPayload] = useState(null);
   const navigate = useNavigate();
 
+  // Handle the form submission to create a new irrigation proposal
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
-        // prepare payload crops (include custom "other" if selected)
-        const payloadCrops = [...form.targetCrops];
-        if (otherSelected && otherCrop.trim()) payloadCrops.push(otherCrop.trim());
+      const payloadCrops = [...form.targetCrops];
+      // If the user typed a custom crop name, we add it to the list
+      if (otherSelected && otherCrop.trim()) payloadCrops.push(otherCrop.trim());
 
-        await axios.post(
-          "http://localhost:4000/api/proposals",
-          {
-            title: form.title,
-            description: form.description,
-            price: parseFloat(form.price),
-            targetCrops: payloadCrops,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      // We need at least one crop to make a proposal useful
+      if (payloadCrops.length === 0) {
+        setError("Please select at least one target crop.");
+        setLoading(false);
+        return;
+      }
 
-        // show confirmation modal with images instead of immediate redirect
-        setCreatedPayload({ title: form.title, targetCrops: payloadCrops });
-        setShowConfirmation(true);
-        // reset form for next use
-        setForm({ title: "", description: "", price: "", targetCrops: [] });
-        setOtherSelected(false);
-        setOtherCrop("");
+      await axios.post(
+        `${API_BASE}/api/proposals`,
+        { title: form.title, description: form.description, price: parseFloat(form.price), targetCrops: payloadCrops },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Show the success modal and reset everything
+      setCreatedPayload({ title: form.title, targetCrops: payloadCrops });
+      setShowConfirmation(true);
+      setForm({ title: "", description: "", price: "", targetCrops: [] });
+      setOtherSelected(false);
+      setOtherCrop("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create proposal. Please try again.");
     } finally {
@@ -67,72 +74,72 @@ export default function CreateProposal({ token }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 rounded-2xl shadow-xl"
+        className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
       >
-        <h2 className="text-3xl font-bold mb-2 text-green-700">Create Irrigation Proposal</h2>
-        <p className="text-gray-600 mb-6">
-          Create a new irrigation proposal for farmers to browse and connect with you.
-        </p>
+        {/* Top banner to set the mood */}
+        <div className="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white">
+          <div className="text-4xl mb-3">📝</div>
+          <h2 className="text-3xl font-extrabold mb-1">Create Proposal</h2>
+          <p className="text-green-100 text-sm">Offer your irrigation solution to farmers across India</p>
+        </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+        <div className="p-8">
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm"
+            >
+              ⚠️ {error}
+            </motion.div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Title *</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="e.g., Smart Drip Irrigation System for Wheat"
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Description</label>
-            <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Describe your irrigation solution in detail..."
-              rows="4"
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Price (₹) *</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              type="number"
-              placeholder="Enter price in rupees"
-              value={form.price}
-              onChange={(e) => setForm({ ...form, price: e.target.value })}
-              min="0"
-              step="0.01"
-              required
-            />
-          </div>
-
-          {/* Image URL removed per request */}
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Target Crops *</label>
-              <p className="text-sm text-gray-500 mb-3">Tap to select one or more crops:</p>
+              <label className="block text-gray-700 font-semibold mb-1.5 text-sm">Proposal Title *</label>
+              <input
+                className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                placeholder="e.g., Smart Drip Irrigation for Wheat Fields"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                required
+              />
+            </div>
 
+            <div>
+              <label className="block text-gray-700 font-semibold mb-1.5 text-sm">Description</label>
+              <textarea
+                className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none resize-none"
+                placeholder="Describe your irrigation solution in detail — technology used, coverage area, etc."
+                rows="4"
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-semibold mb-1.5 text-sm">Price (₹) *</label>
+              <div className="relative">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+                <input
+                  className="w-full pl-8 p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                  type="number"
+                  placeholder="0.00"
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: e.target.value })}
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* A nice button-based selector for common crops */}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-sm">Target Crops *</label>
+              <p className="text-xs text-gray-400 mb-3">Select one or more crops this proposal is designed for</p>
               <div className="flex flex-wrap gap-2">
-                {[
-                  "Wheat",
-                  "Rice",
-                  "Corn",
-                  "Maize",
-                  "Barley",
-                  "Other",
-                ].map((crop) => {
+                {CROP_OPTIONS.map((crop) => {
                   const selected = crop === "Other" ? otherSelected : form.targetCrops.includes(crop);
                   return (
                     <button
@@ -142,153 +149,133 @@ export default function CreateProposal({ token }) {
                         if (crop === "Other") {
                           setOtherSelected((s) => !s);
                         } else {
-                          if (form.targetCrops.includes(crop)) {
-                            setForm({ ...form, targetCrops: form.targetCrops.filter((c) => c !== crop) });
-                          } else {
-                            setForm({ ...form, targetCrops: [...form.targetCrops, crop] });
-                          }
+                          setForm({
+                            ...form,
+                            targetCrops: selected
+                              ? form.targetCrops.filter((c) => c !== crop)
+                              : [...form.targetCrops, crop],
+                          });
                         }
                       }}
-                      className={`px-3 py-1 rounded-full border ${selected ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-700 border-gray-200'} hover:shadow-sm focus:outline-none`}
+                      className={`px-4 py-2 rounded-xl border-2 text-sm font-semibold transition-all ${
+                        selected
+                          ? "border-green-500 bg-green-600 text-white shadow-md"
+                          : "border-gray-200 text-gray-600 hover:border-green-300 bg-white"
+                      }`}
                     >
                       {crop}
                     </button>
                   );
                 })}
-
               </div>
-
+              {/* Extra input field if they select 'Other' */}
               {otherSelected && (
-                <div className="mt-3">
-                  <label className="text-sm text-gray-700 font-medium block mb-1">Other crop name</label>
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  className="mt-3"
+                >
                   <input
                     type="text"
-                    placeholder="e.g., Sorghum"
+                    placeholder="Enter custom crop name (e.g., Sorghum)"
                     value={otherCrop}
                     onChange={(e) => setOtherCrop(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+                    className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-500 text-sm outline-none"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Enter a custom crop name to include in the proposal.</p>
-                </div>
-              )}
-
-              <p className="text-sm text-gray-500 mt-2">You can select multiple crops.</p>
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-gray-700 font-semibold mb-2">Preview</label>
-              {form.targetCrops.length === 0 && !(otherSelected && otherCrop.trim()) ? (
-                <div className="bg-gray-50 border border-gray-200 p-6 rounded">No crop selected</div>
-              ) : (
-                <div className="flex flex-wrap gap-4">
-                    {(() => {
-                      const allCrops = [...form.targetCrops, ...(otherSelected && otherCrop.trim() ? [otherCrop.trim()] : [])];
-                      const localMap = {
-                        wheat: wheatImg,
-                        rice: riceImg,
-                        corn: cornImg,
-                        maize: cornImg,
-                        barley: barleyImg,
-                        other: otherImg,
-                      };
-
-                      const getImageForCrop = (cropName) => {
-                        // If this is the custom other crop (user typed a name), show otherImg
-                        if (otherSelected && otherCrop.trim() && cropName === otherCrop.trim()) return otherImg;
-                        const key = String(cropName).toLowerCase();
-                        if (localMap[key]) return localMap[key];
-                        return `https://source.unsplash.com/400x250/?${encodeURIComponent(cropName)},farm`;
-                      };
-
-                      return allCrops.map((crop) => (
-                        <div key={crop} className="w-48 bg-white rounded shadow-sm overflow-hidden">
-                          <img
-                            src={getImageForCrop(crop)}
-                            alt={crop}
-                            className="w-full h-32 object-cover"
-                          />
-                          <div className="p-2 text-center text-sm font-medium">{crop}</div>
-                        </div>
-                      ));
-                    })()}
-                </div>
+                </motion.div>
               )}
             </div>
-          </div>
 
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => navigate("/dashboard")}
-              className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="flex-1 bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
-              disabled={loading}
-            >
-              {loading ? "Creating..." : "Create Proposal"}
-            </button>
-          </div>
-        </form>
+            {/* Real-time preview of the crops they're selecting */}
+            {(form.targetCrops.length > 0 || (otherSelected && otherCrop.trim())) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Crop Preview</label>
+                <div className="flex flex-wrap gap-3">
+                  {[...form.targetCrops, ...(otherSelected && otherCrop.trim() ? [otherCrop.trim()] : [])].map((crop) => (
+                    <div key={crop} className="w-32 bg-gray-50 rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                      <img src={getCropImg(crop)} alt={crop} className="w-full h-24 object-cover" />
+                      <div className="p-2 text-center text-xs font-semibold text-gray-700">{crop}</div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            <div className="flex gap-4 pt-2">
+              <button
+                type="button"
+                onClick={() => navigate("/dashboard")}
+                className="flex-1 bg-gray-100 text-gray-700 p-3.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white p-3.5 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 shadow-md"
+                disabled={loading}
+              >
+                {/* Visual indicator that things are happening */}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    Creating...
+                  </span>
+                ) : "Create Proposal →"}
+              </button>
+            </div>
+          </form>
+        </div>
       </motion.div>
 
-        {/* Confirmation modal shown after successful submit */}
-        {showConfirmation && createdPayload && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-black/40" onClick={() => setShowConfirmation(false)} />
-            <div className="relative bg-white rounded-2xl p-6 w-full max-w-2xl shadow-2xl">
-              <h3 className="text-2xl font-bold text-green-700 mb-3">Proposal Submitted</h3>
-              <p className="text-sm text-gray-600 mb-4">Your proposal has been created. Here's a preview of the target crops you included.</p>
-
-              <div className="flex flex-wrap gap-4 mb-4">
-                {(() => {
-                  const allCrops = createdPayload.targetCrops || [];
-                  const localMap = {
-                    wheat: wheatImg,
-                    rice: riceImg,
-                    corn: cornImg,
-                    maize: cornImg,
-                    barley: barleyImg,
-                    other: otherImg,
-                  };
-                  const getImageForCrop = (cropName) => {
-                    const key = String(cropName).toLowerCase();
-                    if (localMap[key]) return localMap[key];
-                    return `https://source.unsplash.com/400x250/?${encodeURIComponent(cropName)},farm`;
-                  };
-
-                  if (allCrops.length === 0) return <div className="text-gray-500">(no crops selected)</div>;
-
-                  return allCrops.map((crop) => (
-                    <div key={crop} className="w-40 bg-white rounded shadow-sm overflow-hidden">
-                      <img src={getImageForCrop(crop)} alt={crop} className="w-full h-28 object-cover" />
-                      <div className="p-2 text-center text-sm font-medium">{crop}</div>
-                    </div>
-                  ));
-                })()}
-              </div>
-
-              <div className="flex gap-3 justify-end">
-                <button
-                  onClick={() => setShowConfirmation(false)}
-                  className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700"
-                >
-                  Go to Dashboard
-                </button>
-              </div>
+      {/* A popup to celebrate the successful creation of the proposal */}
+      {showConfirmation && createdPayload && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowConfirmation(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="relative bg-white rounded-2xl p-8 w-full max-lg shadow-2xl z-10"
+          >
+            <div className="text-center mb-4">
+              <div className="text-5xl mb-3">🎉</div>
+              <h3 className="text-2xl font-bold text-green-700">Proposal Created!</h3>
+              <p className="text-gray-500 text-sm mt-2">
+                "{createdPayload.title}" is now live and visible to farmers.
+              </p>
             </div>
-          </div>
-        )}
+            <div className="flex flex-wrap gap-3 justify-center mb-6">
+              {createdPayload.targetCrops.map((crop) => (
+                <div key={crop} className="w-28 bg-gray-50 rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                  <img src={getCropImg(crop)} alt={crop} className="w-full h-20 object-cover" />
+                  <div className="p-1.5 text-center text-xs font-semibold">{crop}</div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowConfirmation(false)}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium text-sm"
+              >
+                Create Another
+              </button>
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-green-600 text-white hover:bg-green-700 font-bold text-sm"
+              >
+                View Dashboard →
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
-

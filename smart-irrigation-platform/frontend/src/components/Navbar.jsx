@@ -1,88 +1,153 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar({ user, onLogout }) {
   const navigate = useNavigate();
+  // We use this to toggle the menu on mobile devices
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  // Helper function to sign the user out and clean up the state
   const handleLogout = () => {
     onLogout();
     navigate("/");
+    setMenuOpen(false);
   };
 
+  // Consistent styling for our navigation links
+  const navLink =
+    "hover:text-emerald-300 transition-colors duration-200 font-medium text-sm";
+
   return (
-    <>
-      <nav className="bg-green-600 text-white p-4 shadow-lg">
-        <div className="container mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold hover:text-green-200">
-            Smart Farming Hub
-          </Link>
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <>
-                <Link to="/dashboard" className="hover:text-yellow-300 font-semibold">
-                  Dashboard
-                </Link>
-                {user.role === "provider" && (
-                  <Link to="/create-proposal" className="hover:text-yellow-300 font-semibold">
-                    Create Proposal
-                  </Link>
-                )}
-                <Link to="/water-usage" className="hover:text-yellow-300 font-semibold">
-                  Water Usage
-                </Link>
-                <span className="text-green-200">Welcome, {user.name}</span>
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-green-800 via-green-700 to-emerald-700 shadow-xl">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        
+        {/* Our App Logo and Name */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-white font-extrabold text-xl tracking-tight"
+        >
+          <span className="text-2xl">🌿</span>
+          <span className="hidden sm:inline">Smart Farming Hub</span>
+          <span className="sm:hidden">Smart Farming Hub</span>
+        </Link>
+
+        {/* Links shown on tablets and computers */}
+        <div className="hidden md:flex items-center gap-6 text-white">
+          {user ? (
+            <>
+              {/* Logged in view */}
+              <Link to="/dashboard" className={navLink}>📊 Dashboard</Link>
+              <Link to="/water-usage" className={navLink}>💧 Water Usage</Link>
+              {user.role === "provider" && (
+                <Link to="/create-proposal" className={navLink}>📝 Create Proposal</Link>
+              )}
+              <Link to="/about" className={navLink}>About</Link>
+              <Link to="/contact" className={navLink}>Contact</Link>
+              <div className="flex items-center gap-3 ml-2">
+                {/* User's profile badge */}
+                <div className="bg-white/20 rounded-full px-3 py-1.5 text-sm font-medium">
+                  👤 {user.name}
+                </div>
                 <button
                   onClick={handleLogout}
-                  className="bg-green-700 px-4 py-2 rounded hover:bg-green-800 transition-colors"
+                  className="bg-red-500/80 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors"
                 >
                   Logout
                 </button>
-              </>
-            ) : (
-              <>
-                <Link to="/" className="hover:text-yellow-300 font-semibold">
-                  Home
-                </Link>
-                <Link to="/about" className="hover:text-yellow-300 font-semibold">
-                  About
-                </Link>
-                <Link to="/contact" className="hover:text-yellow-300 font-semibold">
-                  Contact
-                </Link>
-                <Link to="/support" className="hover:text-yellow-300 font-semibold">
-                  Support
-                </Link>
-                <Link to="/login" className="hover:text-yellow-300 font-semibold">
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Logged out view */}
+              <Link to="/" className={navLink}>Home</Link>
+              <Link to="/about" className={navLink}>About</Link>
+              <Link to="/contact" className={navLink}>Contact</Link>
+              <Link to="/support" className={navLink}>Support</Link>
+              <div className="flex items-center gap-2 ml-2">
+                <Link
+                  to="/login"
+                  className="border border-white/50 text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors"
+                >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-green-700 px-4 py-2 rounded hover:bg-green-800 transition-colors font-semibold"
+                  className="bg-emerald-400 text-green-900 px-4 py-1.5 rounded-lg text-sm font-bold hover:bg-emerald-300 transition-colors"
                 >
                   Register
                 </Link>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
-      </nav>
 
-      {/* Bottom bar shown only after login: About / Contact / Support */}
-      {user && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-white/95 text-slate-800 rounded-full px-3 py-2 shadow-lg flex items-center gap-4">
-            <Link to="/about" className="px-3 py-1 rounded-full hover:bg-slate-100 transition text-sm font-medium">
-              About
-            </Link>
-            <Link to="/contact" className="px-3 py-1 rounded-full hover:bg-slate-100 transition text-sm font-medium">
-              Contact
-            </Link>
-            <Link to="/support" className="px-3 py-1 rounded-full hover:bg-slate-100 transition text-sm font-medium">
-              Support
-            </Link>
+        {/* The "Hamburger" icon for phones */}
+        <button
+          className="md:hidden text-white focus:outline-none"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <div className="space-y-1.5">
+            <motion.span
+              animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+              className="block w-6 h-0.5 bg-white origin-center"
+            />
+            <motion.span
+              animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
+              className="block w-6 h-0.5 bg-white"
+            />
+            <motion.span
+              animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+              className="block w-6 h-0.5 bg-white origin-center"
+            />
           </div>
-        </div>
-      )}
-    </>
+        </button>
+      </div>
+
+      {/* The slide-down menu for mobile phones */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-green-900/95 backdrop-blur-sm border-t border-white/10 overflow-hidden"
+          >
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-3 text-white">
+              {user ? (
+                <>
+                  <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}>📊 Dashboard</Link>
+                  <Link to="/water-usage" className={navLink} onClick={() => setMenuOpen(false)}>💧 Water Usage</Link>
+                  {user.role === "provider" && (
+                    <Link to="/create-proposal" className={navLink} onClick={() => setMenuOpen(false)}>📝 Create Proposal</Link>
+                  )}
+                  <Link to="/about" className={navLink} onClick={() => setMenuOpen(false)}>About</Link>
+                  <Link to="/contact" className={navLink} onClick={() => setMenuOpen(false)}>Contact</Link>
+                  <hr className="border-white/20" />
+                  <span className="text-green-300 text-sm">👤 {user.name}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left text-red-400 text-sm font-semibold"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/" className={navLink} onClick={() => setMenuOpen(false)}>Home</Link>
+                  <Link to="/about" className={navLink} onClick={() => setMenuOpen(false)}>About</Link>
+                  <Link to="/contact" className={navLink} onClick={() => setMenuOpen(false)}>Contact</Link>
+                  <Link to="/support" className={navLink} onClick={() => setMenuOpen(false)}>Support</Link>
+                  <hr className="border-white/20" />
+                  <Link to="/login" className={navLink} onClick={() => setMenuOpen(false)}>Login</Link>
+                  <Link to="/register" className="text-emerald-400 font-bold text-sm" onClick={() => setMenuOpen(false)}>Register →</Link>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 }

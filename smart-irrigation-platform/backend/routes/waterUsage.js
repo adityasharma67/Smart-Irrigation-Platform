@@ -6,43 +6,49 @@ const { inMemoryWaterUsage } = require("../storage/inMemory");
 const { authenticateToken } = require("../middleware/auth");
 const mongoose = require("mongoose");
 
-// Get water usage
+// This endpoint retrieves the full history of water used in the fields
 router.get("/", async (req, res) => {
   try {
     if (isMongoConnected()) {
+      // We pull the most recent records from our database first
       const waterUsage = await WaterUsage.find().sort({ createdAt: -1 });
       res.json(waterUsage);
     } else {
+      // If the database is busy, we show the temporary list from this session
       res.json(inMemoryWaterUsage);
     }
   } catch (error) {
     console.error("Error fetching water usage:", error);
-    res.status(500).json({ message: "Error fetching water usage", error: error.message });
+    res.status(500).json({ message: "We couldn't retrieve the water usage data", error: error.message });
   }
 });
 
-// Create water usage
+// This endpoint allows farmers to record a new batch of water usage
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { field, litersUsed, status } = req.body;
-    if (!field || !litersUsed) return res.status(400).json({ message: "Field and litersUsed are required" });
+    
+    // To record usage, we need to know where it happened and how much was used
+    if (!field || !litersUsed) return res.status(400).json({ message: "Please specify the field name and the amount of water used" });
 
     if (isMongoConnected()) {
+      // We log the details in the database and link them to the logged-in farmer
       const waterUsage = new WaterUsage({ field, litersUsed, status: status || "Optimal", userId: req.user.userId });
       await waterUsage.save();
       res.status(201).json(waterUsage);
     } else {
+      // Temporary fallback: Log it in our volatile storage for now
       const newUsage = { _id: Date.now().toString(), id: Date.now(), field, litersUsed: parseFloat(litersUsed), status: status || "Optimal", createdAt: new Date() };
       inMemoryWaterUsage.push(newUsage);
       res.status(201).json(newUsage);
     }
   } catch (error) {
     console.error("Error creating water usage:", error);
-    res.status(500).json({ message: "Error creating water usage", error: error.message });
+    res.status(500).json({ message: "Could not save the water usage record", error: error.message });
   }
 });
 
-// Delete water usage entry
+// This endpoint is for removing incorrect or outdated usage entries
 router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,7 +56,7 @@ router.delete("/:id", authenticateToken, async (req, res) => {
     let deletedSomething = false;
 
     if (isMongoConnected()) {
-      // Only attempt Mongo deletion for valid ObjectId values to avoid CastErrors
+      // Only attempt a database delete if the ID format is correct
       if (mongoose.Types.ObjectId.isValid(id)) {
         const deleted = await WaterUsage.findByIdAndDelete(id);
         if (deleted) {
@@ -59,6 +65,7 @@ router.delete("/:id", authenticateToken, async (req, res) => {
       }
     }
 
+    // We also check our temporary list to be safe
     const index = inMemoryWaterUsage.findIndex((w) => String(w._id || w.id) === String(id));
     if (index !== -1) {
       inMemoryWaterUsage.splice(index, 1);
@@ -66,14 +73,14 @@ router.delete("/:id", authenticateToken, async (req, res) => {
     }
 
     if (!deletedSomething) {
-      // If nothing was found in either Mongo or in-memory, still return 200 so UI doesn't break
-      return res.json({ message: "Water usage entry already removed or not found" });
+      // If it's already gone, we let the farmer know
+      return res.json({ message: "That water usage entry was already removed or doesn't exist" });
     }
 
-    return res.json({ message: "Water usage entry deleted successfully" });
+    return res.json({ message: "Entry successfully removed from your history" });
   } catch (error) {
     console.error("Error deleting water usage:", error);
-    res.status(500).json({ message: "Error deleting water usage", error: error.message });
+    res.status(500).json({ message: "Could not remove the entry at this time", error: error.message });
   }
 });
 

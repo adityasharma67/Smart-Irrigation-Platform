@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import API_BASE from "../config/api";
+
+// The different types of users who can join the community
+const roleOptions = [
+  { value: "farmer", label: "👨‍🌾 Farmer", desc: "Find irrigation solutions for your crops" },
+  { value: "provider", label: "🔧 Service Provider", desc: "Offer irrigation services to farmers" },
+  { value: "manufacturer", label: "🏭 Manufacturer", desc: "Supply irrigation equipment and devices" },
+];
 
 export default function Register({ onRegister }) {
+  // We keep track of everything the user puts into the signup form
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,18 +23,21 @@ export default function Register({ onRegister }) {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
+  // Sends the new account details to our server to get registered
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/register", form);
+      const res = await axios.post(`${API_BASE}/api/auth/register`, form);
+      // Once they're in, we save their login info and take them to their new dashboard
       onRegister(res.data.token, res.data.user);
       navigate("/dashboard");
     } catch (err) {
+      // If something's wrong (like an email already in use), we let them know
       setError(err.response?.data?.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
@@ -33,103 +45,155 @@ export default function Register({ onRegister }) {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 rounded-2xl shadow-xl"
-      >
-        <h2 className="text-3xl font-bold mb-2 text-green-700">Register</h2>
-        <p className="text-gray-600 mb-6">Create your account to get started.</p>
+    <div className="min-h-[90vh] flex items-center justify-center py-8">
+      <div className="w-full max-w-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
+        >
+          {/* A bright banner to welcome new members */}
+          <div className="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white text-center">
+            <div className="text-5xl mb-3">🌱</div>
+            <h2 className="text-3xl font-extrabold mb-1">Create Account</h2>
+            <p className="text-green-100 text-sm">Join thousands of farmers and providers on Smart Farming Hub</p>
+          </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+          <div className="p-8">
+            {/* Displaying any errors that pop up during the registration process */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm flex items-center gap-2"
+              >
+                ⚠️ {error}
+              </motion.div>
+            )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Full Name</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Enter your full name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Email</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Enter your email"
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Password</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Create a password"
-              type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              required
-              minLength={6}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Role</label>
-            <select
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              value={form.role}
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
-            >
-              <option value="farmer">Farmer</option>
-              <option value="provider">Service Provider</option>
-              <option value="manufacturer">Manufacturer</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Location</label>
-            <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Enter your location"
-              value={form.location}
-              onChange={(e) => setForm({ ...form, location: e.target.value })}
-            />
-          </div>
-          {form.role === "farmer" && (
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2">Crop Type</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="Enter crop type (e.g., Wheat, Rice)"
-                value={form.cropType}
-                onChange={(e) => setForm({ ...form, cropType: e.target.value })}
-              />
-            </div>
-          )}
-          <button
-            className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Full Name</label>
+                <input
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                  placeholder="Enter your full name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  required
+                />
+              </div>
 
-        <p className="mt-6 text-center text-gray-600">
-          Already have an account?{" "}
-          <Link to="/login" className="text-green-600 font-semibold hover:underline">
-            Login here
-          </Link>
-        </p>
-      </motion.div>
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Email Address</label>
+                <input
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                  placeholder="you@example.com"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Password</label>
+                <div className="relative">
+                  <input
+                    className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none pr-12"
+                    placeholder="Create a strong password"
+                    type={showPass ? "text" : "password"}
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    required
+                    minLength={6}
+                  />
+                  {/* Toggles if the password characters are visible */}
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg"
+                  >
+                    {showPass ? "🙈" : "👁️"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Choosing the right type of account */}
+              <div>
+                <label className="block text-gray-700 font-semibold mb-3 text-sm">I am a...</label>
+                <div className="grid grid-cols-1 gap-2">
+                  {roleOptions.map((r) => (
+                    <button
+                      key={r.value}
+                      type="button"
+                      onClick={() => setForm({ ...form, role: r.value })}
+                      className={`text-left px-4 py-3 rounded-xl border-2 transition-all text-sm ${
+                        form.role === r.value
+                          ? "border-green-500 bg-green-50 text-green-800"
+                          : "border-gray-200 hover:border-gray-300 text-gray-700"
+                      }`}
+                    >
+                      <span className="font-semibold">{r.label}</span>
+                      <span className="text-xs text-gray-500 ml-2">{r.desc}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Location</label>
+                <input
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                  placeholder="City, State"
+                  value={form.location}
+                  onChange={(e) => setForm({ ...form, location: e.target.value })}
+                />
+              </div>
+
+              {/* Extra field just for farmers to tell us what they grow */}
+              {form.role === "farmer" && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Primary Crop</label>
+                  <input
+                    className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                    placeholder="e.g., Wheat, Rice, Cotton"
+                    value={form.cropType}
+                    onChange={(e) => setForm({ ...form, cropType: e.target.value })}
+                  />
+                </motion.div>
+              )}
+
+              <button
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white p-3.5 rounded-xl font-bold text-base hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 shadow-md mt-2"
+                type="submit"
+                disabled={loading}
+              >
+                {/* Shows a loading spinner while we're setting up the account */}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    Creating Account...
+                  </span>
+                ) : (
+                  "Create Account →"
+                )}
+              </button>
+            </form>
+
+            <p className="mt-6 text-center text-gray-500 text-sm">
+              Already have an account?{" "}
+              <Link to="/login" className="text-green-600 font-bold hover:underline">
+                Login here
+              </Link>
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

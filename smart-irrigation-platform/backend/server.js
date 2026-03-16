@@ -3,9 +3,11 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
+// We bring in our database connection helpers
 const db = require("./db/index.js");
 const { connectDB, isMongoConnected } = db;
 
+// Import our route handlers for different parts of the app
 const authRoutes = require("./routes/auth");
 const proposalsRoutes = require("./routes/proposals");
 const waterUsageRoutes = require("./routes/waterUsage");
@@ -13,7 +15,7 @@ const usersRoutes = require("./routes/users");
 
 const app = express();
 
-// Middleware
+// Set up security so our frontend can talk to the backend safely
 const allowedOrigins = process.env.NODE_ENV === "production" 
   ? [process.env.RENDER_EXTERNAL_URL || "http://localhost:4000"]
   : ["http://localhost:3000", "http://localhost:4000"];
@@ -24,40 +26,43 @@ app.use(cors({
   credentials: true
 }));
 
+// Make sure we can read JSON data sent in requests
 app.use(express.json());
 
-// Connect to MongoDB (if available)
+// Kick off the database connection
 connectDB();
 
-// In-memory fallback storage (moved to module)
+// Pull in some temporary storage in case the database isn't ready
 const { inMemoryUsers, inMemoryProposals, inMemoryWaterUsage } = require("./storage/inMemory");
 
-// Mount route modules
+// Connect all our specific feature routes to the main app
 app.use("/api/auth", authRoutes);
 app.use("/api/proposals", proposalsRoutes);
 app.use("/api/water-usage", waterUsageRoutes);
 app.use("/api/users", usersRoutes);
 
-// Health check
+// A simple way to check if the server is healthy and if MongoDB is happy
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", mongoConnected: isMongoConnected() });
 });
 
-// Serve frontend build (Create React App uses 'build' folder)
+// Help the server find the frontend files once they're built
 const frontendBuildPath = path.join(__dirname, "../frontend/build");
 app.use(express.static(frontendBuildPath));
 
-// SPA catch-all route (must be after all API routes)
+// For all other web requests, just send back the main frontend page
 app.get("*", (req, res) => {
   res.sendFile(path.join(frontendBuildPath, "index.html"));
 });
 
+// Start listening for visitors on the designated port
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📊 MongoDB: ${isMongoConnected() ? "Connected" : "Not connected (using in-memory storage)"}`);
-  console.log(`📁 Frontend build path: ${frontendBuildPath}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+  
+  // Double check if the frontend files are actually there
   const fs = require("fs");
   if (!fs.existsSync(frontendBuildPath)) {
     console.warn(`⚠️  Frontend build folder not found at ${frontendBuildPath}`);
