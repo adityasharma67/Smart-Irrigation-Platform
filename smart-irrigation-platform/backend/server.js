@@ -16,9 +16,14 @@ const usersRoutes = require("./routes/users");
 const app = express();
 
 // Set up security so our frontend can talk to the backend safely
-const allowedOrigins = process.env.NODE_ENV === "production" 
-  ? [process.env.RENDER_EXTERNAL_URL || "http://localhost:4000"]
-  : ["http://localhost:3000", "http://localhost:4000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:4000"
+];
+
+if (process.env.RENDER_EXTERNAL_URL) {
+  allowedOrigins.push(process.env.RENDER_EXTERNAL_URL);
+}
 
 app.use(cors({
   origin: allowedOrigins,
