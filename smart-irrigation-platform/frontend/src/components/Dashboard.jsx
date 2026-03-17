@@ -111,7 +111,7 @@ export default function Dashboard({ token, user }) {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto">
+      <div className="container mx-auto px-4 py-8">
         {/* Welcome header with the user's name */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

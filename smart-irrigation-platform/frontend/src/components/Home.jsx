@@ -58,7 +58,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full -mx-4">
+    <div className="w-full">
       {/* Welcome Section with Hero Slider */}
       <div className="relative h-screen overflow-hidden">
         <AnimatePresence mode="wait">

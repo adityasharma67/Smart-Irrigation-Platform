@@ -33,7 +33,7 @@ export default function Navbar({ user, onLogout }) {
         </Link>
 
         {/* Links shown on tablets and computers */}
-        <div className="hidden md:flex items-center gap-6 text-white">
+        <div className="hidden lg:flex items-center gap-6 text-white">
           {user ? (
             <>
               {/* Logged in view */}
@@ -84,7 +84,7 @@ export default function Navbar({ user, onLogout }) {
 
         {/* The "Hamburger" icon for phones */}
         <button
-          className="md:hidden text-white focus:outline-none"
+          className="lg:hidden text-white focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -112,7 +112,7 @@ export default function Navbar({ user, onLogout }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-green-900/95 backdrop-blur-sm border-t border-white/10 overflow-hidden"
+            className="lg:hidden bg-green-900/95 backdrop-blur-sm border-t border-white/10 overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3 text-white">
               {user ? (

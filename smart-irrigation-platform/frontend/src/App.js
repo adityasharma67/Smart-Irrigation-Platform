@@ -83,7 +83,7 @@ function App() {
         {/* Our main navigation bar */}
         <Navbar user={user} onLogout={handleLogout} />
         
-        <div className="container mx-auto px-4 py-8">
+        <div className="flex-grow">
           {/* Here we define which page to show based on the web address */}
           <Routes>
             <Route

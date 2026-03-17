@@ -29,7 +29,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="container mx-auto px-4 py-12">
       {/* Page header to invite users to reach out */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

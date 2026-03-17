@@ -14,7 +14,7 @@ const features = [
 
 export default function About() {
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="container mx-auto px-4 py-12">
       {/* Hero section to introduce the mission */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
