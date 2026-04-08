@@ -13,6 +13,13 @@ const proposalsRoutes = require("./routes/proposals");
 const waterUsageRoutes = require("./routes/waterUsage");
 const usersRoutes = require("./routes/users");
 
+// Import intelligent feature routes (predictive models, weather, analytics)
+const weatherRoutes = require("./routes/weather");
+const predictionRoutes = require("./routes/prediction");
+const cropsRoutes = require("./routes/crops");
+const analyticsRoutes = require("./routes/analytics");
+const scheduleRoutes = require("./routes/schedule");
+
 const app = express();
 
 // Set up security so our frontend can talk to the backend safely
@@ -45,6 +52,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/proposals", proposalsRoutes);
 app.use("/api/water-usage", waterUsageRoutes);
 app.use("/api/users", usersRoutes);
+
+// Connect intelligent feature routes — predictive irrigation, weather, crop advisor, analytics
+app.use("/api/weather", weatherRoutes);
+app.use("/api/predictions", predictionRoutes);
+app.use("/api/crops", cropsRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/schedule", scheduleRoutes);
 
 // A simple way to check if the server is healthy and if MongoDB is happy
 app.get("/api/health", (req, res) => {

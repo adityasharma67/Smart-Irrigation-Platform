@@ -7,6 +7,8 @@ import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import CreateProposal from "./components/CreateProposal";
 import WaterUsage from "./components/WaterUsage";
+import SmartDashboard from "./components/SmartDashboard";
+import CropAdvisor from "./components/CropAdvisor";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Support from "./components/Support";
@@ -110,6 +112,14 @@ function App() {
             <Route
               path="/water-usage"
               element={token ? <WaterUsage token={token} user={user} /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/smart-dashboard"
+              element={token ? <SmartDashboard token={token} user={user} /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/crop-advisor"
+              element={token ? <CropAdvisor token={token} user={user} /> : <Navigate to="/login" replace />}
             />
             {/* General informational pages */}
             <Route path="/about" element={<About />} />

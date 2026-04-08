@@ -138,7 +138,7 @@ export default function Dashboard({ token, user }) {
           )}
         </motion.div>
 
-        {/* A quick summary of the user's current status */}
+        {/* Quick stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
             { label: "Active Proposals", value: activeCount, icon: "📋", color: "bg-green-50 border-green-200 text-green-700" },
@@ -155,6 +155,53 @@ export default function Dashboard({ token, user }) {
               <div className="text-2xl mb-1">{s.icon}</div>
               <div className="font-bold text-lg">{s.value}</div>
               <div className="text-xs opacity-70">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Smart Features Quick Access */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {[
+            {
+              title: "🧠 Smart Analytics",
+              desc: "AI-powered weather integration, sensor data analysis, and ML predictions for optimal irrigation.",
+              link: "/smart-dashboard",
+              gradient: "from-emerald-500 to-teal-600",
+              badge: "ML & AI",
+            },
+            {
+              title: "🌾 Crop Advisor",
+              desc: "FAO-standard crop database with growth stages, Kc coefficients, and water calculators for 15+ crops.",
+              link: "/crop-advisor",
+              gradient: "from-green-500 to-emerald-600",
+              badge: "15+ Crops",
+            },
+            {
+              title: "📅 Smart Schedule",
+              desc: "Weather-aware irrigation scheduling with Penman-Monteith ET₀, priority scoring, and savings analysis.",
+              link: "/smart-dashboard",
+              gradient: "from-blue-500 to-cyan-600",
+              badge: "Automated",
+            },
+          ].map((card, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.1 }}
+              whileHover={{ y: -5, scale: 1.02 }}
+            >
+              <Link
+                to={card.link}
+                className={`block bg-gradient-to-br ${card.gradient} rounded-2xl p-5 text-white shadow-lg hover:shadow-xl transition-all duration-300`}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-lg font-bold">{card.title}</h3>
+                  <span className="text-[10px] font-bold bg-white/25 px-2 py-0.5 rounded-full">{card.badge}</span>
+                </div>
+                <p className="text-sm opacity-90 leading-relaxed mb-3">{card.desc}</p>
+                <span className="text-sm font-semibold opacity-80">Explore →</span>
+              </Link>
             </motion.div>
           ))}
         </div>

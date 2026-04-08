@@ -38,6 +38,8 @@ export default function Navbar({ user, onLogout }) {
             <>
               {/* Logged in view */}
               <Link to="/dashboard" className={navLink}>📊 Dashboard</Link>
+              <Link to="/smart-dashboard" className={navLink}>🧠 Smart Analytics</Link>
+              <Link to="/crop-advisor" className={navLink}>🌾 Crop Advisor</Link>
               <Link to="/water-usage" className={navLink}>💧 Water Usage</Link>
               {user.role === "provider" && (
                 <Link to="/create-proposal" className={navLink}>📝 Create Proposal</Link>
@@ -118,6 +120,8 @@ export default function Navbar({ user, onLogout }) {
               {user ? (
                 <>
                   <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}>📊 Dashboard</Link>
+                  <Link to="/smart-dashboard" className={navLink} onClick={() => setMenuOpen(false)}>🧠 Smart Analytics</Link>
+                  <Link to="/crop-advisor" className={navLink} onClick={() => setMenuOpen(false)}>🌾 Crop Advisor</Link>
                   <Link to="/water-usage" className={navLink} onClick={() => setMenuOpen(false)}>💧 Water Usage</Link>
                   {user.role === "provider" && (
                     <Link to="/create-proposal" className={navLink} onClick={() => setMenuOpen(false)}>📝 Create Proposal</Link>
