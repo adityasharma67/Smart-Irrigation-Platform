@@ -11,6 +11,59 @@ const roleOptions = [
   { value: "manufacturer", label: "🏭 Manufacturer", desc: "Supply irrigation equipment and devices" },
 ];
 
+const states = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Delhi",
+  "Jammu & Kashmir",
+  "Puducherry",
+];
+
+const citySuggestions = {
+  "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur"],
+  "Assam": ["Guwahati", "Silchar", "Dibrugarh"],
+  "Bihar": ["Patna", "Gaya", "Bhagalpur"],
+  "Gujarat": ["Ahmedabad", "Surat", "Vadodara"],
+  "Haryana": ["Gurugram", "Faridabad", "Panipat"],
+  "Karnataka": ["Bengaluru", "Mysuru", "Mangalore"],
+  "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode"],
+  "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior"],
+  "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
+  "Punjab": ["Chandigarh", "Ludhiana", "Amritsar"],
+  "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur"],
+  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
+  "Telangana": ["Hyderabad", "Warangal", "Nizamabad"],
+  "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi"],
+  "West Bengal": ["Kolkata", "Darjeeling", "Howrah"],
+  "Delhi": ["New Delhi", "Dwarka", "Rohini"],
+};
+
 export default function Register({ onRegister }) {
   // We keep track of everything the user puts into the signup form
   const [form, setForm] = useState({
@@ -18,7 +71,8 @@ export default function Register({ onRegister }) {
     email: "",
     password: "",
     role: "farmer",
-    location: "",
+    state: "",
+    city: "",
     cropType: "",
   });
   const [error, setError] = useState("");
@@ -31,8 +85,12 @@ export default function Register({ onRegister }) {
     e.preventDefault();
     setError("");
     setLoading(true);
+    const location = form.city && form.state ? `${form.city}, ${form.state}` : form.city || form.state || "";
     try {
-      const res = await axios.post(`${API_BASE}/api/auth/register`, form);
+      const res = await axios.post(`${API_BASE}/api/auth/register`, {
+        ...form,
+        location,
+      });
       // Once they're in, we save their login info and take them to their new dashboard
       onRegister(res.data.token, res.data.user);
       navigate("/dashboard");
@@ -141,14 +199,40 @@ export default function Register({ onRegister }) {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2 text-sm">Location</label>
-                <input
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
-                  placeholder="City, State"
-                  value={form.location}
-                  onChange={(e) => setForm({ ...form, location: e.target.value })}
-                />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">State</label>
+                  <select
+                    className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none bg-white"
+                    value={form.state}
+                    onChange={(e) => setForm({ ...form, state: e.target.value, city: "" })}
+                  >
+                    <option value="">Choose a state</option>
+                    {states.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">City</label>
+                  <input
+                    className="w-full p-3.5 border-2 border-gray-200 rounded-xl focus:border-green-500 transition-colors text-sm outline-none"
+                    placeholder="Select or type a city"
+                    value={form.city}
+                    list="citySuggestions"
+                    onChange={(e) => setForm({ ...form, city: e.target.value })}
+                  />
+                  <datalist id="citySuggestions">
+                    {(form.state ? citySuggestions[form.state] || [] : Object.values(citySuggestions).flat())
+                      .filter(Boolean)
+                      .map((city) => (
+                        <option key={city} value={city} />
+                      ))}
+                  </datalist>
+                </div>
               </div>
 
               {/* Extra field just for farmers to tell us what they grow */}
