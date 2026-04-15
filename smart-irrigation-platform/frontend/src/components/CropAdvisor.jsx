@@ -23,9 +23,9 @@ const getCropBadge = (cropKey) => {
   if (!cropKey) return "CR";
   const raw = String(cropKey).toUpperCase();
   const lettersOnly = raw.replace(/[^A-Z]/g, "");
+  if (lettersOnly) return lettersOnly.slice(0, 2);
   const alphanumeric = raw.replace(/[^A-Z0-9]/g, "");
-  const fallback = alphanumeric || raw;
-  return (lettersOnly || fallback).slice(0, 2) || "CR";
+  return alphanumeric.slice(0, 2) || "CR";
 };
 
 export default function CropAdvisor({ token, user }) {
