@@ -20,8 +20,9 @@ const SOIL_OPTIONS = [
 ];
 
 const getCropBadge = (cropKey) => {
-  const label = String(cropKey || "").replace(/[^a-zA-Z]/g, "").toUpperCase();
-  return label.slice(0, 2) || "CR";
+  if (!cropKey) return "CR";
+  const label = String(cropKey).replace(/[^a-zA-Z]/g, "").toUpperCase();
+  return label ? label.slice(0, 2) : "CR";
 };
 
 export default function CropAdvisor({ token, user }) {
