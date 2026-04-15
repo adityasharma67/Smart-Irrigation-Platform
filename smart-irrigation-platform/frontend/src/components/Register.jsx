@@ -6,9 +6,9 @@ import API_BASE from "../config/api";
 
 // The different types of users who can join the community
 const roleOptions = [
-  { value: "farmer", label: "👨‍🌾 Farmer", desc: "Find irrigation solutions for your crops" },
-  { value: "provider", label: "🔧 Service Provider", desc: "Offer irrigation services to farmers" },
-  { value: "manufacturer", label: "🏭 Manufacturer", desc: "Supply irrigation equipment and devices" },
+  { value: "farmer", label: "Farmer", desc: "Find irrigation solutions for your crops" },
+  { value: "provider", label: "Service Provider", desc: "Offer irrigation services to farmers" },
+  { value: "manufacturer", label: "Manufacturer", desc: "Supply irrigation equipment and devices" },
 ];
 
 const states = [
@@ -112,8 +112,8 @@ export default function Register({ onRegister }) {
           className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
         >
           {/* A bright banner to welcome new members */}
-          <div className="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white text-center">
-            <div className="text-5xl mb-3">🌱</div>
+          <div className="bg-gradient-to-r from-cyan-700 to-emerald-600 p-8 text-white text-center">
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-3 bg-white/20 border border-white/30 three-d-float" />
             <h2 className="text-3xl font-extrabold mb-1">Create Account</h2>
             <p className="text-green-100 text-sm">Join thousands of farmers and providers on Smart Farming Hub</p>
           </div>

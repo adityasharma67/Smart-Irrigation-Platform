@@ -40,8 +40,8 @@ export default function Login({ onLogin }) {
           className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
         >
           {/* A friendly welcome banner at the top of the card */}
-          <div className="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white text-center">
-            <div className="text-5xl mb-3">🌿</div>
+          <div className="bg-gradient-to-r from-cyan-700 to-emerald-600 p-8 text-white text-center">
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-3 bg-white/20 border border-white/30 three-d-float" />
             <h2 className="text-3xl font-extrabold mb-1">Welcome Back</h2>
             <p className="text-green-100 text-sm">Login to your Smart Farming Hub account</p>
           </div>

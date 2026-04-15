@@ -17,9 +17,9 @@ import Support from "./components/Support";
 function NotFound() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
-      <div className="text-9xl mb-4">🌾</div>
-      <h1 className="text-5xl font-bold text-green-700 mb-3">404</h1>
-      <p className="text-xl text-gray-500 mb-6">Oops! This field doesn't exist.</p>
+      <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-cyan-500 to-emerald-500 mb-6 shadow-2xl three-d-float" />
+      <h1 className="text-5xl font-bold text-emerald-300 mb-3">404</h1>
+      <p className="text-xl text-slate-300 mb-6">Oops! This field doesn't exist.</p>
       <a href="/" className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
         Back to Home
       </a>
@@ -81,7 +81,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+      <div className="min-h-screen bg-gradient-to-br from-[#081924] via-[#0a1f2d] to-[#07141d]">
         {/* Our main navigation bar */}
         <Navbar user={user} onLogout={handleLogout} />
         

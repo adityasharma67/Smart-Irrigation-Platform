@@ -74,7 +74,7 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Darkens the background image so text is easy to read */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-slate-900/55 to-black/80" />
 
         {/* Main Hero Text and Buttons */}
         <div className="absolute inset-0 flex items-center justify-center">
@@ -88,9 +88,12 @@ export default function Home() {
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="text-7xl mb-4"
+              className="mb-6 flex justify-center"
             >
-              🌿
+              <div className="relative three-d-float">
+                <div className="three-d-orb" />
+                <div className="three-d-ring" />
+              </div>
             </motion.div>
             <h1 className="text-5xl md:text-7xl font-extrabold mb-4 leading-tight tracking-tight">
               Smart Irrigation
@@ -156,21 +159,21 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8">
           {[
             {
-              icon: "👨‍🌾",
+              icon: "FA",
               title: "For Farmers",
               desc: "Browse curated irrigation proposals, compare prices, and connect directly with trusted service providers.",
               bg: "from-green-50 to-emerald-50",
               border: "border-green-200",
             },
             {
-              icon: "💧",
+              icon: "WR",
               title: "Water Analytics",
               desc: "Track real-time water usage across all your fields with smart status indicators and historical data.",
               bg: "from-blue-50 to-cyan-50",
               border: "border-blue-200",
             },
             {
-              icon: "🔧",
+              icon: "SP",
               title: "For Providers",
               desc: "Create detailed proposals, showcase your expertise, and reach thousands of farmers looking for solutions.",
               bg: "from-amber-50 to-orange-50",
@@ -184,9 +187,9 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
               whileHover={{ y: -8, scale: 1.02 }}
-              className={`bg-gradient-to-br ${f.bg} p-8 rounded-2xl border ${f.border} shadow-md hover:shadow-xl transition-all duration-300`}
+              className={`bg-gradient-to-br ${f.bg} p-8 rounded-2xl border ${f.border} shadow-md hover:shadow-xl transition-all duration-300 three-d-float`}
             >
-              <div className="text-5xl mb-4">{f.icon}</div>
+              <div className="w-14 h-14 rounded-2xl mb-4 bg-white/80 border border-white/60 flex items-center justify-center text-2xl font-black text-slate-700">{f.icon}</div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">{f.title}</h3>
               <p className="text-gray-600 leading-relaxed">{f.desc}</p>
             </motion.div>
@@ -257,7 +260,7 @@ export default function Home() {
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
             <h3 className="text-2xl font-bold text-green-700 mb-6 flex items-center gap-3">
-              👨‍🌾 For Farmers
+              For Farmers
             </h3>
             <div className="space-y-6">
               {benefits.farmers.map((b, i) => (

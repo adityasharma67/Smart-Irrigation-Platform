@@ -16,10 +16,10 @@ export default function Navbar({ user, onLogout }) {
 
   // Consistent styling for our navigation links
   const navLink =
-    "hover:text-emerald-300 transition-colors duration-200 font-medium text-sm";
+    "hover:text-cyan-300 transition-colors duration-200 font-medium text-sm";
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-green-800 via-green-700 to-emerald-700 shadow-xl">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-cyan-900 to-emerald-900 shadow-xl border-b border-white/10">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         
         {/* Our App Logo and Name */}
@@ -27,7 +27,6 @@ export default function Navbar({ user, onLogout }) {
           to="/"
           className="flex items-center gap-2 text-white font-extrabold text-xl tracking-tight"
         >
-          <span className="text-2xl">🌿</span>
           <span className="hidden sm:inline">Smart Farming Hub</span>
           <span className="sm:hidden">Smart Farming Hub</span>
         </Link>
@@ -37,9 +36,9 @@ export default function Navbar({ user, onLogout }) {
           {user ? (
             <>
               {/* Logged in view */}
-              <Link to="/dashboard" className={navLink}>📊 Dashboard</Link>
+              <Link to="/dashboard" className={navLink}>Dashboard</Link>
               <Link to="/smart-dashboard" className={navLink}>🧠 Smart Analytics</Link>
-              <Link to="/crop-advisor" className={navLink}>🌾 Crop Advisor</Link>
+              <Link to="/crop-advisor" className={navLink}>Crop Advisor</Link>
               <Link to="/water-usage" className={navLink}>💧 Water Usage</Link>
               {user.role === "provider" && (
                 <Link to="/create-proposal" className={navLink}>📝 Create Proposal</Link>
@@ -49,7 +48,7 @@ export default function Navbar({ user, onLogout }) {
               <div className="flex items-center gap-3 ml-2">
                 {/* User's profile badge */}
                 <div className="bg-white/20 rounded-full px-3 py-1.5 text-sm font-medium">
-                  👤 {user.name}
+                  {user.name}
                 </div>
                 <button
                   onClick={handleLogout}
@@ -119,9 +118,9 @@ export default function Navbar({ user, onLogout }) {
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3 text-white">
               {user ? (
                 <>
-                  <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}>📊 Dashboard</Link>
+                  <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}>Dashboard</Link>
                   <Link to="/smart-dashboard" className={navLink} onClick={() => setMenuOpen(false)}>🧠 Smart Analytics</Link>
-                  <Link to="/crop-advisor" className={navLink} onClick={() => setMenuOpen(false)}>🌾 Crop Advisor</Link>
+                  <Link to="/crop-advisor" className={navLink} onClick={() => setMenuOpen(false)}>Crop Advisor</Link>
                   <Link to="/water-usage" className={navLink} onClick={() => setMenuOpen(false)}>💧 Water Usage</Link>
                   {user.role === "provider" && (
                     <Link to="/create-proposal" className={navLink} onClick={() => setMenuOpen(false)}>📝 Create Proposal</Link>
@@ -129,7 +128,7 @@ export default function Navbar({ user, onLogout }) {
                   <Link to="/about" className={navLink} onClick={() => setMenuOpen(false)}>About</Link>
                   <Link to="/contact" className={navLink} onClick={() => setMenuOpen(false)}>Contact</Link>
                   <hr className="border-white/20" />
-                  <span className="text-green-300 text-sm">👤 {user.name}</span>
+                  <span className="text-green-300 text-sm">{user.name}</span>
                   <button
                     onClick={handleLogout}
                     className="text-left text-red-400 text-sm font-semibold"

@@ -19,11 +19,13 @@ const SOIL_OPTIONS = [
   { key: "black-soil", label: "Black Soil" },
 ];
 
-// Crop emojis for visual flair
-const CROP_ICONS = {
-  wheat: "🌾", rice: "🍚", corn: "🌽", barley: "🌿", sugarcane: "🎋",
-  cotton: "☁️", soybean: "🫘", potato: "🥔", tomato: "🍅", onion: "🧅",
-  groundnut: "🥜", mustard: "🌼", chickpea: "🟤", millet: "🌱", sorghum: "🌿",
+const getCropBadge = (cropKey) => {
+  if (!cropKey) return "CR";
+  const raw = String(cropKey).toUpperCase();
+  const lettersOnly = raw.replace(/[^A-Z]/g, "");
+  if (lettersOnly) return lettersOnly.slice(0, 2);
+  const alphanumeric = raw.replace(/[^A-Z0-9]/g, "");
+  return alphanumeric.slice(0, 2) || "CR";
 };
 
 export default function CropAdvisor({ token, user }) {
@@ -103,7 +105,7 @@ export default function CropAdvisor({ token, user }) {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-1">🌾 Crop Irrigation Advisor</h2>
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-1">Crop Irrigation Advisor</h2>
         <p className="text-gray-500">
           Science-backed irrigation parameters for {crops.length}+ crops — 
           Based on <span className="font-semibold text-green-700">FAO Paper 56</span> standards
@@ -131,7 +133,9 @@ export default function CropAdvisor({ token, user }) {
                   : "border-gray-100 bg-white hover:border-green-200"
               }`}
             >
-              <div className="text-2xl mb-1">{CROP_ICONS[crop.key] || "🌿"}</div>
+              <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-black text-slate-700 flex items-center justify-center">
+                {getCropBadge(crop.key)}
+              </div>
               <div className="text-xs font-semibold text-gray-700 truncate">{crop.name?.split(" ")[0]}</div>
             </motion.button>
           ))}
@@ -144,7 +148,9 @@ export default function CropAdvisor({ token, user }) {
           {/* Crop Info Header */}
           <div className="bg-gradient-to-r from-green-700 to-emerald-600 rounded-2xl p-6 text-white">
             <div className="flex items-start gap-4">
-              <div className="text-5xl">{CROP_ICONS[selectedCrop] || "🌿"}</div>
+              <div className="w-16 h-16 rounded-2xl bg-white/20 border border-white/30 text-base font-black flex items-center justify-center three-d-float">
+                {getCropBadge(selectedCrop)}
+              </div>
               <div className="flex-1">
                 <h3 className="text-2xl font-extrabold">{cropDetail.name}</h3>
                 <p className="text-green-100 text-sm italic">{cropDetail.scientificName}</p>
@@ -161,7 +167,7 @@ export default function CropAdvisor({ token, user }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Growth Stages Timeline */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🌱 Growth Stages & Crop Coefficients (Kc)</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Growth Stages & Crop Coefficients (Kc)</h3>
               
               {/* Visual timeline */}
               <div className="relative mb-6">
@@ -211,7 +217,7 @@ export default function CropAdvisor({ token, user }) {
 
             {/* Water Calculator */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🧮 Water Requirement Calculator</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Water Requirement Calculator</h3>
               
               <div className="space-y-4 mb-6">
                 <div>
@@ -286,7 +292,7 @@ export default function CropAdvisor({ token, user }) {
                   {/* Growth Stage Info */}
                   {recommendation.growthStage && recommendation.growthStage.stage !== "harvested" && (
                     <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                      <h4 className="text-sm font-bold text-blue-700 mb-2">🌱 Current Growth Stage</h4>
+                      <h4 className="text-sm font-bold text-blue-700 mb-2">Current Growth Stage</h4>
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-semibold text-gray-700 capitalize">{recommendation.growthStage.stage}</span>
                         <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">
@@ -372,7 +378,7 @@ export default function CropAdvisor({ token, user }) {
       {/* No selection placeholder */}
       {!selectedCrop && !loading && (
         <div className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100">
-          <div className="text-7xl mb-4">🌾</div>
+          <div className="w-20 h-20 rounded-3xl mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-xl three-d-float" />
           <h3 className="text-2xl font-bold text-gray-700 mb-2">Select a Crop Above</h3>
           <p className="text-gray-500">Choose from our database of {crops.length}+ crops to see detailed irrigation parameters and calculate water needs.</p>
         </div>
