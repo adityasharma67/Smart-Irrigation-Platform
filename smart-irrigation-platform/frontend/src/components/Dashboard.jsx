@@ -120,7 +120,7 @@ export default function Dashboard({ token, user }) {
         >
           <div>
             <h2 className="text-4xl font-extrabold text-gray-800 mb-1">
-              {user?.role === "farmer" ? "🌾 Farmer Dashboard" : "📊 Dashboard"}
+              {user?.role === "farmer" ? "Farmer Dashboard" : "Dashboard"}
             </h2>
             <p className="text-gray-500">
               Welcome back, <span className="font-semibold text-green-700">{user?.name}</span>! 
@@ -170,7 +170,7 @@ export default function Dashboard({ token, user }) {
               badge: "ML & AI",
             },
             {
-              title: "🌾 Crop Advisor",
+              title: "Crop Advisor",
               desc: "FAO-standard crop database with growth stages, Kc coefficients, and water calculators for 15+ crops.",
               link: "/crop-advisor",
               gradient: "from-green-500 to-emerald-600",
@@ -224,7 +224,7 @@ export default function Dashboard({ token, user }) {
             animate={{ opacity: 1 }}
             className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100"
           >
-            <div className="text-7xl mb-4 float-anim inline-block">🌾</div>
+            <div className="w-20 h-20 rounded-3xl mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-xl three-d-float" />
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Proposals Yet</h3>
             <p className="text-gray-500 mb-6">
               {user?.role === "provider"

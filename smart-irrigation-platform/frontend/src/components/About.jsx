@@ -21,7 +21,7 @@ export default function About() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-16"
       >
-        <div className="text-7xl mb-6">🌿</div>
+        <div className="w-20 h-20 rounded-3xl mx-auto mb-6 bg-gradient-to-br from-cyan-500 to-emerald-500 shadow-2xl three-d-float" />
         <h1 className="text-5xl font-extrabold text-gray-800 mb-4">
           About <span className="text-green-600">Smart Farming Hub</span>
         </h1>
