@@ -159,21 +159,21 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8">
           {[
             {
-              icon: "FM",
+              icon: "FA",
               title: "For Farmers",
               desc: "Browse curated irrigation proposals, compare prices, and connect directly with trusted service providers.",
               bg: "from-green-50 to-emerald-50",
               border: "border-green-200",
             },
             {
-              icon: "WA",
+              icon: "WR",
               title: "Water Analytics",
               desc: "Track real-time water usage across all your fields with smart status indicators and historical data.",
               bg: "from-blue-50 to-cyan-50",
               border: "border-blue-200",
             },
             {
-              icon: "PR",
+              icon: "SP",
               title: "For Providers",
               desc: "Create detailed proposals, showcase your expertise, and reach thousands of farmers looking for solutions.",
               bg: "from-amber-50 to-orange-50",

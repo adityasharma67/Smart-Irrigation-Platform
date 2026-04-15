@@ -96,8 +96,9 @@ body {
 }
 
 .three-d-orb {
-  width: 96px;
-  height: 96px;
+  --orb-size: 96px;
+  width: var(--orb-size);
+  height: var(--orb-size);
   border-radius: 9999px;
   background: linear-gradient(145deg, #34d399, #0ea5e9);
   box-shadow: 0 20px 45px rgba(8, 145, 178, 0.35), inset -10px -12px 20px rgba(0, 0, 0, 0.2);
