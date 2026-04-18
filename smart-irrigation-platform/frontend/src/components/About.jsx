@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 // A list of what makes our platform special
 const features = [
-  { icon: "📡", title: "IoT Water Tracking", desc: "Real-time sensor data from your fields for precision irrigation decisions." },
-  { icon: "🤝", title: "Proposal Matching", desc: "AI-assisted matching between farmer needs and provider solutions." },
-  { icon: "📍", title: "Location-Based", desc: "Discover service providers near your farm for faster support." },
-  { icon: "📊", title: "Analytics Dashboard", desc: "Visualize water usage trends and optimize your irrigation schedules." },
-  { icon: "🔒", title: "Secure Platform", desc: "JWT-authenticated accounts keep your data safe and private." },
-  { icon: "📱", title: "Mobile Friendly", desc: "Access your dashboard from any device, anywhere on your farm." },
+  { icon: "🌿", title: "IoT Water Tracking", desc: "Real-time sensor data from your fields for precision irrigation decisions." },
+  { icon: "🌿", title: "Proposal Matching", desc: "AI-assisted matching between farmer needs and provider solutions." },
+  { icon: "🌿", title: "Location-Based", desc: "Discover service providers near your farm for faster support." },
+  { icon: "🌿", title: "Analytics Dashboard", desc: "Visualize water usage trends and optimize your irrigation schedules." },
+  { icon: "🌿", title: "Secure Platform", desc: "JWT-authenticated accounts keep your data safe and private." },
+  { icon: "🌿", title: "Mobile Friendly", desc: "Access your dashboard from any device, anywhere on your farm." },
 ];
 
 export default function About() {

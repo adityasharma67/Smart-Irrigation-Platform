@@ -104,16 +104,17 @@ body::before {
 }
 
 .theme-shell .bg-white {
-  background: rgba(8, 15, 28, 0.78) !important;
+  background: transparent !important;
   border-color: rgba(148, 163, 184, 0.15) !important;
   color: inherit;
-  box-shadow: 0 24px 80px rgba(3, 7, 18, 0.45);
-  backdrop-filter: blur(18px);
+  box-shadow: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .theme-shell .bg-gray-50,
 .theme-shell .bg-gray-100 {
-  background: rgba(15, 23, 42, 0.72) !important;
+  background: transparent !important;
 }
 
 .theme-shell .border-gray-100,
@@ -162,16 +163,19 @@ body::before {
 }
 
 .theme-shell .theme-card {
-  background: linear-gradient(180deg, rgba(8, 15, 28, 0.9), rgba(15, 23, 42, 0.8));
+  background: transparent;
   border: 1px solid rgba(148, 163, 184, 0.14);
-  box-shadow: 0 24px 80px rgba(3, 7, 18, 0.5);
-  backdrop-filter: blur(18px);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .theme-shell .theme-surface {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.72));
+  background: transparent;
   border: 1px solid rgba(148, 163, 184, 0.14);
-  box-shadow: 0 24px 60px rgba(3, 7, 18, 0.42);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .theme-shell .theme-chip {
@@ -186,12 +190,7 @@ body::before {
 }
 
 .theme-shell .theme-glow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
-  transform: translateX(-120%);
-  animation: shimmer 5s infinite;
+  content: none;
 }
 
 .theme-orb {
@@ -233,7 +232,7 @@ body::before {
   inset: 0;
   background-image: linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
   background-size: 72px 72px;
-  animation: grid-pan 24s linear infinite;
+  animation: none;
   opacity: 0.3;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), transparent 90%);
 }
@@ -245,6 +244,29 @@ body::before {
 
 .tilt-layer {
   transform: translateZ(18px);
+}
+
+.theme-shell button,
+.theme-shell a,
+.theme-shell .theme-card,
+.theme-shell .theme-surface,
+.theme-shell [class*="rounded"] {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+.theme-shell button,
+.theme-shell a {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.theme-shell .theme-orb,
+.theme-shell .float-anim,
+.theme-shell .pulse-green,
+.theme-shell .skeleton {
+  animation: none !important;
 }
 
 /* Skeleton loader shimmer */

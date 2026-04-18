@@ -54,7 +54,7 @@ export default function Login({ onLogin }) {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 flex items-center gap-2 text-sm"
               >
-                ⚠️ {error}
+                 {error}
               </motion.div>
             )}
 
@@ -87,7 +87,7 @@ export default function Login({ onLogin }) {
                     onClick={() => setShowPass(!showPass)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg"
                   >
-                    {showPass ? "🙈" : "👁️"}
+                    {showPass ? "Hide" : "Show"}
                   </button>
                 </div>
               </div>

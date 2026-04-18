@@ -28,7 +28,7 @@ export default function Navbar({ user, onLogout }) {
           className="flex items-center gap-3 text-white font-extrabold text-xl tracking-tight"
         >
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 text-2xl shadow-lg shadow-cyan-500/20">
-            🌿
+            
           </span>
           <span className="theme-display hidden sm:inline text-white">Smart Farming Hub</span>
           <span className="theme-display sm:hidden text-white">Smart Hub</span>
@@ -39,19 +39,19 @@ export default function Navbar({ user, onLogout }) {
           {user ? (
             <>
               {/* Logged in view */}
-              <Link to="/dashboard" className={navLink}>📊 Dashboard</Link>
-              <Link to="/smart-dashboard" className={navLink}>🧠 Smart Analytics</Link>
-              <Link to="/crop-advisor" className={navLink}>🌾 Crop Advisor</Link>
-              <Link to="/water-usage" className={navLink}>💧 Water Usage</Link>
+              <Link to="/dashboard" className={navLink}> Dashboard</Link>
+              <Link to="/smart-dashboard" className={navLink}> Smart Analytics</Link>
+              <Link to="/crop-advisor" className={navLink}> Crop Advisor</Link>
+              <Link to="/water-usage" className={navLink}> Water Usage</Link>
               {user.role === "provider" && (
-                <Link to="/create-proposal" className={navLink}>📝 Create Proposal</Link>
+                <Link to="/create-proposal" className={navLink}> Create Proposal</Link>
               )}
               <Link to="/about" className={navLink}>About</Link>
               <Link to="/contact" className={navLink}>Contact</Link>
               <div className="flex items-center gap-3 ml-2">
                 {/* User's profile badge */}
                 <div className="theme-chip rounded-full px-3 py-1.5 text-sm font-medium">
-                  👤 {user.name}
+                   {user.name}
                 </div>
                 <button
                   onClick={handleLogout}
@@ -121,17 +121,17 @@ export default function Navbar({ user, onLogout }) {
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3 text-white">
               {user ? (
                 <>
-                  <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}>📊 Dashboard</Link>
-                  <Link to="/smart-dashboard" className={navLink} onClick={() => setMenuOpen(false)}>🧠 Smart Analytics</Link>
-                  <Link to="/crop-advisor" className={navLink} onClick={() => setMenuOpen(false)}>🌾 Crop Advisor</Link>
-                  <Link to="/water-usage" className={navLink} onClick={() => setMenuOpen(false)}>💧 Water Usage</Link>
+                  <Link to="/dashboard" className={navLink} onClick={() => setMenuOpen(false)}> Dashboard</Link>
+                  <Link to="/smart-dashboard" className={navLink} onClick={() => setMenuOpen(false)}> Smart Analytics</Link>
+                  <Link to="/crop-advisor" className={navLink} onClick={() => setMenuOpen(false)}> Crop Advisor</Link>
+                  <Link to="/water-usage" className={navLink} onClick={() => setMenuOpen(false)}> Water Usage</Link>
                   {user.role === "provider" && (
-                    <Link to="/create-proposal" className={navLink} onClick={() => setMenuOpen(false)}>📝 Create Proposal</Link>
+                    <Link to="/create-proposal" className={navLink} onClick={() => setMenuOpen(false)}> Create Proposal</Link>
                   )}
                   <Link to="/about" className={navLink} onClick={() => setMenuOpen(false)}>About</Link>
                   <Link to="/contact" className={navLink} onClick={() => setMenuOpen(false)}>Contact</Link>
                   <hr className="border-white/20" />
-                  <span className="text-green-300 text-sm">👤 {user.name}</span>
+                  <span className="text-green-300 text-sm"> {user.name}</span>
                   <button
                     onClick={handleLogout}
                     className="text-left text-red-400 text-sm font-semibold"

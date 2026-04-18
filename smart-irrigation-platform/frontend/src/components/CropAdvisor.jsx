@@ -21,9 +21,9 @@ const SOIL_OPTIONS = [
 
 // Crop emojis for visual flair
 const CROP_ICONS = {
-  wheat: "🌾", rice: "🍚", corn: "🌽", barley: "🌿", sugarcane: "🎋",
-  cotton: "☁️", soybean: "🫘", potato: "🥔", tomato: "🍅", onion: "🧅",
-  groundnut: "🥜", mustard: "🌼", chickpea: "🟤", millet: "🌱", sorghum: "🌿",
+  wheat: "", rice: "", corn: "", barley: "", sugarcane: "",
+  cotton: "", soybean: "", potato: "", tomato: "", onion: "",
+  groundnut: "", mustard: "", chickpea: "", millet: "", sorghum: "",
 };
 
 export default function CropAdvisor({ token, user }) {
@@ -103,7 +103,7 @@ export default function CropAdvisor({ token, user }) {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-1">🌾 Crop Irrigation Advisor</h2>
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-1"> Crop Irrigation Advisor</h2>
         <p className="text-gray-500">
           Science-backed irrigation parameters for {crops.length}+ crops — 
           Based on <span className="font-semibold text-green-700">FAO Paper 56</span> standards
@@ -111,7 +111,7 @@ export default function CropAdvisor({ token, user }) {
       </motion.div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-4 text-sm">⚠️ {error}</div>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-4 text-sm"> {error}</div>
       )}
 
       {/* Crop Selection Grid */}
@@ -131,7 +131,7 @@ export default function CropAdvisor({ token, user }) {
                   : "border-gray-100 bg-white hover:border-green-200"
               }`}
             >
-              <div className="text-2xl mb-1">{CROP_ICONS[crop.key] || "🌿"}</div>
+              <div className="text-2xl mb-1">{CROP_ICONS[crop.key] || ""}</div>
               <div className="text-xs font-semibold text-gray-700 truncate">{crop.name?.split(" ")[0]}</div>
             </motion.button>
           ))}
@@ -144,7 +144,7 @@ export default function CropAdvisor({ token, user }) {
           {/* Crop Info Header */}
           <div className="bg-gradient-to-r from-green-700 to-emerald-600 rounded-2xl p-6 text-white">
             <div className="flex items-start gap-4">
-              <div className="text-5xl">{CROP_ICONS[selectedCrop] || "🌿"}</div>
+              <div className="text-5xl">{CROP_ICONS[selectedCrop] || ""}</div>
               <div className="flex-1">
                 <h3 className="text-2xl font-extrabold">{cropDetail.name}</h3>
                 <p className="text-green-100 text-sm italic">{cropDetail.scientificName}</p>
@@ -161,7 +161,7 @@ export default function CropAdvisor({ token, user }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Growth Stages Timeline */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🌱 Growth Stages & Crop Coefficients (Kc)</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4"> Growth Stages & Crop Coefficients (Kc)</h3>
               
               {/* Visual timeline */}
               <div className="relative mb-6">
@@ -211,7 +211,7 @@ export default function CropAdvisor({ token, user }) {
 
             {/* Water Calculator */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🧮 Water Requirement Calculator</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4"> Water Requirement Calculator</h3>
               
               <div className="space-y-4 mb-6">
                 <div>
@@ -266,7 +266,7 @@ export default function CropAdvisor({ token, user }) {
               {recommendation && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                   <div className="bg-green-50 rounded-xl p-4 border border-green-100">
-                    <h4 className="text-sm font-bold text-green-700 mb-3">💧 Water Requirement Results</h4>
+                    <h4 className="text-sm font-bold text-green-700 mb-3"> Water Requirement Results</h4>
                     <div className="grid grid-cols-2 gap-3">
                       {[
                         { label: "Daily Need", value: `${recommendation.dailyWaterNeed?.liters?.toLocaleString()} L`, sub: `${recommendation.dailyWaterNeed?.mm} mm/day` },
@@ -286,7 +286,7 @@ export default function CropAdvisor({ token, user }) {
                   {/* Growth Stage Info */}
                   {recommendation.growthStage && recommendation.growthStage.stage !== "harvested" && (
                     <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                      <h4 className="text-sm font-bold text-blue-700 mb-2">🌱 Current Growth Stage</h4>
+                      <h4 className="text-sm font-bold text-blue-700 mb-2"> Current Growth Stage</h4>
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-semibold text-gray-700 capitalize">{recommendation.growthStage.stage}</span>
                         <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">
@@ -298,14 +298,14 @@ export default function CropAdvisor({ token, user }) {
                         <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${recommendation.growthStage.progressPercent}%` }} />
                       </div>
                       {recommendation.isCriticalStage && (
-                        <p className="text-xs text-red-600 font-semibold mt-2">⚠️ Critical stage — water stress now causes maximum yield loss!</p>
+                        <p className="text-xs text-red-600 font-semibold mt-2"> Critical stage — water stress now causes maximum yield loss!</p>
                       )}
                     </div>
                   )}
 
                   {/* Recommendation Text */}
                   <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
-                    <h4 className="text-sm font-bold text-amber-700 mb-2">💡 Expert Recommendation</h4>
+                    <h4 className="text-sm font-bold text-amber-700 mb-2"> Expert Recommendation</h4>
                     <p className="text-sm text-gray-600 leading-relaxed">{recommendation.recommendation}</p>
                   </div>
 
@@ -329,7 +329,7 @@ export default function CropAdvisor({ token, user }) {
           {/* Crop Details Info Panel */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
-              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">🌡️ Optimal Conditions</h4>
+              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3"> Optimal Conditions</h4>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-500">Temperature</span>
@@ -351,7 +351,7 @@ export default function CropAdvisor({ token, user }) {
             </div>
 
             <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
-              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">🌍 Soil Compatibility</h4>
+              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3"> Soil Compatibility</h4>
               <div className="flex flex-wrap gap-2">
                 {cropDetail.soilPreference?.map((soil, i) => (
                   <span key={i} className="bg-green-50 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-100">
@@ -362,7 +362,7 @@ export default function CropAdvisor({ token, user }) {
             </div>
 
             <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
-              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">📝 Notes</h4>
+              <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3"> Notes</h4>
               <p className="text-sm text-gray-600 leading-relaxed">{cropDetail.notes}</p>
             </div>
           </div>
@@ -372,7 +372,7 @@ export default function CropAdvisor({ token, user }) {
       {/* No selection placeholder */}
       {!selectedCrop && !loading && (
         <div className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100">
-          <div className="text-7xl mb-4">🌾</div>
+          <div className="text-7xl mb-4">🌿</div>
           <h3 className="text-2xl font-bold text-gray-700 mb-2">Select a Crop Above</h3>
           <p className="text-gray-500">Choose from our database of {crops.length}+ crops to see detailed irrigation parameters and calculate water needs.</p>
         </div>

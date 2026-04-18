@@ -50,10 +50,10 @@ export default function SmartDashboard({ token, user }) {
   };
 
   const tabs = [
-    { id: "overview", label: "Overview", icon: "📊" },
-    { id: "sensors", label: "Sensor Data", icon: "📡" },
-    { id: "predictions", label: "Predictions", icon: "🔮" },
-    { id: "schedule", label: "Smart Schedule", icon: "📅" },
+    { id: "overview", label: "Overview", icon: "🌿" },
+    { id: "sensors", label: "Sensor Data", icon: "🌿" },
+    { id: "predictions", label: "Predictions", icon: "🌿" },
+    { id: "schedule", label: "Smart Schedule", icon: "🌿" },
   ];
 
   if (loading) {
@@ -78,7 +78,7 @@ export default function SmartDashboard({ token, user }) {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h2 className="theme-display text-4xl font-extrabold text-white mb-1">🧠 Smart Analytics Dashboard</h2>
+        <h2 className="theme-display text-4xl font-extrabold text-white mb-1"> Smart Analytics Dashboard</h2>
         <p className="text-gray-500">
           AI-powered insights for <span className="font-semibold text-green-700">{location}</span> — 
           Predictive models, weather integration, and real-time sensor analytics.
@@ -86,7 +86,7 @@ export default function SmartDashboard({ token, user }) {
       </motion.div>
 
       {error && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-xl mb-4 text-sm">⚠️ {error}</div>
+        <div className="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-xl mb-4 text-sm"> {error}</div>
       )}
 
       {/* Tab Navigation */}
@@ -262,10 +262,10 @@ export default function SmartDashboard({ token, user }) {
                   />
                   <div className="grid grid-cols-4 gap-2 mt-4">
                     {[
-                      { label: "Current", value: `${sensorData.summary?.latest?.soilMoisture?.toFixed(1)}%`, icon: "💧" },
-                      { label: "Average", value: `${sensorData.summary?.averages?.soilMoisture?.toFixed(1)}%`, icon: "📊" },
-                      { label: "Trend", value: sensorData.trends?.trend?.direction || "stable", icon: "📈" },
-                      { label: "Anomalies", value: sensorData.anomalies?.count || 0, icon: "⚠️" },
+                      { label: "Current", value: `${sensorData.summary?.latest?.soilMoisture?.toFixed(1)}%`, icon: "🌿" },
+                      { label: "Average", value: `${sensorData.summary?.averages?.soilMoisture?.toFixed(1)}%`, icon: "🌿" },
+                      { label: "Trend", value: sensorData.trends?.trend?.direction || "stable", icon: "🌿" },
+                      { label: "Anomalies", value: sensorData.anomalies?.count || 0, icon: "🌿" },
                     ].map((stat, i) => (
                       <div key={i} className="text-center bg-gray-50 rounded-lg p-2">
                         <div className="text-sm">{stat.icon}</div>
@@ -286,12 +286,12 @@ export default function SmartDashboard({ token, user }) {
             transition={{ delay: 0.4 }}
             className="theme-surface rounded-[2rem] p-6"
           >
-            <h3 className="text-sm font-bold text-green-700 uppercase tracking-wider mb-3">🧠 Algorithms Powering This Dashboard</h3>
+            <h3 className="text-sm font-bold text-green-700 uppercase tracking-wider mb-3"> Algorithms Powering This Dashboard</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { name: "Penman-Monteith ET₀", desc: "FAO-standard evapotranspiration calculation using temperature, humidity, wind, and solar radiation", icon: "🌡️" },
-                { name: "Linear Regression + EMA", desc: "Trend prediction on historical water usage data with exponential moving average smoothing", icon: "📈" },
-                { name: "Z-Score Anomaly Detection", desc: "Statistical outlier identification in sensor data to flag equipment issues or unusual conditions", icon: "🔍" },
+                { name: "Penman-Monteith ET₀", desc: "FAO-standard evapotranspiration calculation using temperature, humidity, wind, and solar radiation", icon: "🌿" },
+                { name: "Linear Regression + EMA", desc: "Trend prediction on historical water usage data with exponential moving average smoothing", icon: "🌿" },
+                { name: "Z-Score Anomaly Detection", desc: "Statistical outlier identification in sensor data to flag equipment issues or unusual conditions", icon: "🌿" },
               ].map((algo, i) => (
                 <div key={i} className="bg-white rounded-xl p-4 border border-green-100">
                   <div className="text-2xl mb-2">{algo.icon}</div>
@@ -309,10 +309,10 @@ export default function SmartDashboard({ token, user }) {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Soil Moisture", value: `${sensorData.summary?.latest?.soilMoisture?.toFixed(1)}%`, color: "bg-blue-50 text-blue-700 border-blue-200", icon: "💧" },
-              { label: "Temperature", value: `${sensorData.summary?.latest?.temperature?.toFixed(1)}°C`, color: "bg-orange-50 text-orange-700 border-orange-200", icon: "🌡️" },
-              { label: "Humidity", value: `${sensorData.summary?.latest?.humidity?.toFixed(1)}%`, color: "bg-cyan-50 text-cyan-700 border-cyan-200", icon: "💨" },
-              { label: "Light", value: `${(sensorData.summary?.latest?.lightIntensity / 1000)?.toFixed(1)}k lux`, color: "bg-yellow-50 text-yellow-700 border-yellow-200", icon: "☀️" },
+              { label: "Soil Moisture", value: `${sensorData.summary?.latest?.soilMoisture?.toFixed(1)}%`, color: "bg-blue-50 text-blue-700 border-blue-200", icon: "🌿" },
+              { label: "Temperature", value: `${sensorData.summary?.latest?.temperature?.toFixed(1)}°C`, color: "bg-orange-50 text-orange-700 border-orange-200", icon: "🌿" },
+              { label: "Humidity", value: `${sensorData.summary?.latest?.humidity?.toFixed(1)}%`, color: "bg-cyan-50 text-cyan-700 border-cyan-200", icon: "🌿" },
+              { label: "Light", value: `${(sensorData.summary?.latest?.lightIntensity / 1000)?.toFixed(1)}k lux`, color: "bg-yellow-50 text-yellow-700 border-yellow-200", icon: "🌿" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                 className={`${s.color} border rounded-xl p-4 text-center`}
@@ -353,7 +353,7 @@ export default function SmartDashboard({ token, user }) {
           {/* Statistics */}
           {sensorData.statistics && (
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">📊 Statistical Analysis — Soil Moisture</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4"> Statistical Analysis — Soil Moisture</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[
                   { label: "Mean", value: sensorData.statistics.mean },
@@ -379,7 +379,7 @@ export default function SmartDashboard({ token, user }) {
           {/* Anomalies */}
           {sensorData.anomalies?.count > 0 && (
             <div className="bg-red-50 rounded-2xl p-6 border border-red-100">
-              <h3 className="text-sm font-bold text-red-700 uppercase tracking-wider mb-3">⚠️ Anomalies Detected ({sensorData.anomalies.count})</h3>
+              <h3 className="text-sm font-bold text-red-700 uppercase tracking-wider mb-3"> Anomalies Detected ({sensorData.anomalies.count})</h3>
               <div className="space-y-2">
                 {sensorData.anomalies.details.slice(0, 5).map((a, i) => (
                   <div key={i} className="bg-white rounded-xl p-3 flex justify-between items-center border border-red-100">
@@ -403,7 +403,7 @@ export default function SmartDashboard({ token, user }) {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-lg font-bold text-gray-800">🔮 7-Day Water Requirement Forecast</h3>
+              <h3 className="text-lg font-bold text-gray-800"> 7-Day Water Requirement Forecast</h3>
               <span className="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold">
                 Crop: {predictions.crop} • Kc: {predictions.cropCoefficient}
               </span>
@@ -431,7 +431,7 @@ export default function SmartDashboard({ token, user }) {
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-gray-800">{p.dayName}</span>
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.shouldIrrigate ? "bg-green-200 text-green-700" : "bg-gray-200 text-gray-600"}`}>
-                    {p.shouldIrrigate ? "💧 Irrigate" : "⏸️ Skip"}
+                    {p.shouldIrrigate ? "Irrigate" : "Skip"}
                   </span>
                 </div>
                 <div className="text-2xl font-extrabold text-gray-800 mb-1">{(p.litersNeeded / 1000).toFixed(1)}k L</div>
@@ -446,7 +446,7 @@ export default function SmartDashboard({ token, user }) {
 
           {/* Summary */}
           <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl p-6 text-white">
-            <h3 className="text-lg font-bold mb-4">📊 Weekly Summary</h3>
+            <h3 className="text-lg font-bold mb-4"> Weekly Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "Total Water Needed", value: `${(predictions.summary?.totalWaterNeeded / 1000).toFixed(1)}k L` },
@@ -465,7 +465,7 @@ export default function SmartDashboard({ token, user }) {
           {/* Trend Analysis */}
           {predictions.trendAnalysis && (
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">📈 Historical Trend Analysis</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3"> Historical Trend Analysis</h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-gray-50 rounded-xl p-3 text-center">
                   <div className="text-lg font-bold text-gray-800 capitalize">{predictions.trendAnalysis.trend}</div>
@@ -491,10 +491,10 @@ export default function SmartDashboard({ token, user }) {
           {/* Schedule Summary */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Total Scheduled", value: `${(schedule.summary?.totalWaterScheduled / 1000).toFixed(0)}k L`, icon: "💧", color: "bg-blue-50 text-blue-700 border-blue-200" },
-              { label: "Water Saved", value: `${(schedule.summary?.totalWaterSaved / 1000).toFixed(0)}k L`, icon: "💰", color: "bg-green-50 text-green-700 border-green-200" },
-              { label: "Savings", value: `${schedule.summary?.savingsPercent}%`, icon: "📉", color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-              { label: "Irrigation Days", value: `${schedule.summary?.irrigationDays} / ${schedule.daysScheduled}`, icon: "📅", color: "bg-purple-50 text-purple-700 border-purple-200" },
+              { label: "Total Scheduled", value: `${(schedule.summary?.totalWaterScheduled / 1000).toFixed(0)}k L`, icon: "🌿", color: "bg-blue-50 text-blue-700 border-blue-200" },
+              { label: "Water Saved", value: `${(schedule.summary?.totalWaterSaved / 1000).toFixed(0)}k L`, icon: "🌿", color: "bg-green-50 text-green-700 border-green-200" },
+              { label: "Savings", value: `${schedule.summary?.savingsPercent}%`, icon: "🌿", color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+              { label: "Irrigation Days", value: `${schedule.summary?.irrigationDays} / ${schedule.daysScheduled}`, icon: "🌿", color: "bg-purple-50 text-purple-700 border-purple-200" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                 className={`${s.color} border rounded-xl p-4 text-center`}
@@ -520,7 +520,7 @@ export default function SmartDashboard({ token, user }) {
                   <h3 className="font-bold text-gray-800">{day.dayName} — {day.date}</h3>
                   <p className="text-xs text-gray-500">
                     {Math.round(day.weather.tempMax)}°/{Math.round(day.weather.tempMin)}° • Wind: {day.weather.windSpeed}m/s • 
-                    Rain: {day.weather.rainProbability}% {day.weather.rainExpected ? "🌧️" : ""}
+                    Rain: {day.weather.rainProbability}% {day.weather.rainExpected ? "Rain expected" : "No rain"}
                   </p>
                 </div>
                 <div className="text-right">
@@ -556,7 +556,7 @@ export default function SmartDashboard({ token, user }) {
                         </>
                       ) : (
                         <span className="text-xs text-gray-400 italic">
-                          {field.status === "skipped_rain" ? "⛈️ Rain expected" : "✅ Moisture OK"}
+                          {field.status === "skipped_rain" ? "Rain expected" : "Moisture OK"}
                         </span>
                       )}
                     </div>

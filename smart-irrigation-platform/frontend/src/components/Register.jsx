@@ -113,7 +113,7 @@ export default function Register({ onRegister }) {
         >
           {/* A bright banner to welcome new members */}
           <div className="bg-gradient-to-r from-slate-950 via-cyan-950 to-emerald-900 p-8 text-white text-center">
-            <div className="text-5xl mb-3">🌱</div>
+            <div className="text-5xl mb-3">🌿</div>
             <h2 className="theme-display text-3xl font-extrabold mb-1">Create Account</h2>
             <p className="text-green-100 text-sm">Join thousands of farmers and providers on Smart Farming Hub</p>
           </div>
@@ -126,7 +126,7 @@ export default function Register({ onRegister }) {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm flex items-center gap-2"
               >
-                ⚠️ {error}
+                 {error}
               </motion.div>
             )}
 
@@ -172,7 +172,7 @@ export default function Register({ onRegister }) {
                     onClick={() => setShowPass(!showPass)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg"
                   >
-                    {showPass ? "🙈" : "👁️"}
+                    {showPass ? "Hide" : "Show"}
                   </button>
                 </div>
               </div>

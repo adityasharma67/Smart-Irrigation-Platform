@@ -17,7 +17,7 @@ import Support from "./components/Support";
 function NotFound() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
-      <div className="text-9xl mb-4">🌾</div>
+      <div className="text-9xl mb-4">🌿</div>
       <h1 className="text-5xl font-bold text-green-700 mb-3">404</h1>
       <p className="text-xl text-gray-500 mb-6">Oops! This field doesn't exist.</p>
       <a href="/" className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">

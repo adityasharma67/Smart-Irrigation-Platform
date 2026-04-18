@@ -14,19 +14,19 @@ const images = [img1, img2, img3, img4];
 const steps = [
   {
     step: "01",
-    icon: "📝",
+    icon: "🌿",
     title: "Register",
     desc: "Create your profile as a farmer, service provider, or manufacturer.",
   },
   {
     step: "02",
-    icon: "🔍",
+    icon: "🌿",
     title: "Browse Proposals",
     desc: "Explore smart irrigation solutions tailored for your crops.",
   },
   {
     step: "03",
-    icon: "🤝",
+    icon: "🌿",
     title: "Connect & Grow",
     desc: "Get in touch with providers and start saving water today.",
   },
@@ -35,14 +35,14 @@ const steps = [
 // Highlighting why different users should join the platform
 const benefits = {
   farmers: [
-    { icon: "📈", title: "Increased Yields", desc: "Scientific irrigation schedules tailored to crop needs lead to healthier plants and better harvests." },
-    { icon: "💰", title: "Cost Savings", desc: "Reduce electricity and water bills by up to 40% with automated, precision watering." },
+    { icon: "🌿", title: "Increased Yields", desc: "Scientific irrigation schedules tailored to crop needs lead to healthier plants and better harvests." },
+    { icon: "🌿", title: "Cost Savings", desc: "Reduce electricity and water bills by up to 40% with automated, precision watering." },
     { icon: "⏱️", title: "Save Time", desc: "Monitor and control your irrigation from anywhere, reducing manual field visits." },
   ],
   providers: [
-    { icon: "🌍", title: "Expanded Reach", desc: "Connect with thousands of farmers actively looking for irrigation solutions in your area." },
-    { icon: "📊", title: "Business Growth", desc: "Manage multiple projects efficiently with our digital proposal and tracking tools." },
-    { icon: "🏆", title: "Build Trust", desc: "Showcase your expertise and build a verified reputation through successful field implementations." },
+    { icon: "🌿", title: "Expanded Reach", desc: "Connect with thousands of farmers actively looking for irrigation solutions in your area." },
+    { icon: "🌿", title: "Business Growth", desc: "Manage multiple projects efficiently with our digital proposal and tracking tools." },
+    { icon: "🌿", title: "Build Trust", desc: "Showcase your expertise and build a verified reputation through successful field implementations." },
   ]
 };
 
@@ -118,9 +118,7 @@ export default function Home() {
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.2, type: "spring" }}
               className="text-7xl mb-4"
-            >
-              🌿
-            </motion.div>
+            >🌿</motion.div>
             <h1 className="theme-display text-5xl md:text-7xl font-extrabold mb-4 leading-tight tracking-tight">
               Smart Irrigation
               <span className="block text-emerald-400">Made Simple</span>
@@ -185,21 +183,21 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8">
           {[
             {
-              icon: "👨‍🌾",
+              icon: "🌿",
               title: "For Farmers",
               desc: "Browse curated irrigation proposals, compare prices, and connect directly with trusted service providers.",
               bg: "from-green-50 to-emerald-50",
               border: "border-green-200",
             },
             {
-              icon: "💧",
+              icon: "🌿",
               title: "Water Analytics",
               desc: "Track real-time water usage across all your fields with smart status indicators and historical data.",
               bg: "from-blue-50 to-cyan-50",
               border: "border-blue-200",
             },
             {
-              icon: "🔧",
+              icon: "🌿",
               title: "For Providers",
               desc: "Create detailed proposals, showcase your expertise, and reach thousands of farmers looking for solutions.",
               bg: "from-amber-50 to-orange-50",
@@ -286,7 +284,7 @@ export default function Home() {
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
             <h3 className="text-2xl font-bold text-green-700 mb-6 flex items-center gap-3">
-              👨‍🌾 For Farmers
+               For Farmers
             </h3>
             <div className="space-y-6">
               {benefits.farmers.map((b, i) => (
@@ -318,7 +316,7 @@ export default function Home() {
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
             <h3 className="text-2xl font-bold text-emerald-700 mb-6 flex items-center gap-3">
-              🔧 For Service Providers
+               For Service Providers
             </h3>
             <div className="space-y-6">
               {benefits.providers.map((b, i) => (
