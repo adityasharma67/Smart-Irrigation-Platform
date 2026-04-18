@@ -22,7 +22,7 @@ export default function About() {
         className="text-center mb-16"
       >
         <div className="text-7xl mb-6">🌿</div>
-        <h1 className="text-5xl font-extrabold text-gray-800 mb-4">
+        <h1 className="theme-display text-5xl font-extrabold text-white mb-4">
           About <span className="text-green-600">Smart Farming Hub</span>
         </h1>
         <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -35,9 +35,9 @@ export default function About() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-gradient-to-br from-green-700 to-emerald-800 rounded-3xl p-10 mb-12 text-white"
+        className="theme-surface rounded-[2rem] p-10 mb-12 text-white"
       >
-        <h2 className="text-3xl font-extrabold mb-4">Our Mission</h2>
+        <h2 className="theme-display text-3xl font-extrabold mb-4">Our Mission</h2>
         <p className="text-green-100 text-lg leading-relaxed mb-6">
           Smart Farming Hub (Smart Irrigation Platform) connects farmers, irrigation service providers, and device manufacturers
           through a unified digital marketplace. We help improve irrigation efficiency, reduce water waste, and support
@@ -67,10 +67,10 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -6 }}
-              className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
+              className="theme-card p-6 rounded-[1.5rem] transition-all"
             >
               <div className="text-3xl mb-3">{f.icon}</div>
-              <h3 className="font-bold text-gray-800 mb-2">{f.title}</h3>
+              <h3 className="theme-display font-bold text-white mb-2">{f.title}</h3>
               <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
@@ -82,13 +82,13 @@ export default function About() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-10 text-center text-white"
+        className="bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 rounded-[2rem] p-10 text-center text-slate-950"
       >
-        <h2 className="text-3xl font-extrabold mb-3">Ready to Get Started?</h2>
-        <p className="text-green-100 mb-6">Join Smart Farming Hub and transform the way you manage irrigation.</p>
+        <h2 className="theme-display text-3xl font-extrabold mb-3">Ready to Get Started?</h2>
+        <p className="text-slate-800 mb-6">Join Smart Farming Hub and transform the way you manage irrigation.</p>
         <Link
           to="/register"
-          className="inline-block bg-white text-green-700 px-8 py-3 rounded-xl font-bold hover:bg-green-50 transition-all hover:-translate-y-1 shadow-md"
+          className="inline-block rounded-2xl bg-slate-950 px-8 py-3 font-bold text-white transition-all hover:-translate-y-1 shadow-md"
         >
           Register for Free →
         </Link>

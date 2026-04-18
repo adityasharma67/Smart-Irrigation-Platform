@@ -81,11 +81,18 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+      <div className="theme-shell relative min-h-screen overflow-hidden">
+        <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+          <div className="theme-grid" />
+          <div className="theme-orb theme-orb-a" />
+          <div className="theme-orb theme-orb-b" />
+          <div className="theme-orb theme-orb-c" />
+        </div>
+
         {/* Our main navigation bar */}
         <Navbar user={user} onLogout={handleLogout} />
         
-        <div className="flex-grow">
+        <main className="relative z-10 flex-grow">
           {/* Here we define which page to show based on the web address */}
           <Routes>
             <Route
@@ -128,7 +135,7 @@ function App() {
             {/* Catch any mistakes in the URL */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </Router>
   );

@@ -71,14 +71,14 @@ export default function SmartDashboard({ token, user }) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-1">🧠 Smart Analytics Dashboard</h2>
+        <h2 className="theme-display text-4xl font-extrabold text-white mb-1">🧠 Smart Analytics Dashboard</h2>
         <p className="text-gray-500">
           AI-powered insights for <span className="font-semibold text-green-700">{location}</span> — 
           Predictive models, weather integration, and real-time sensor analytics.
@@ -95,10 +95,10 @@ export default function SmartDashboard({ token, user }) {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${
               activeTab === tab.id
-                ? "bg-green-600 text-white shadow-md shadow-green-200"
-                : "bg-white text-gray-600 border border-gray-200 hover:border-green-300 hover:bg-green-50"
+                ? "bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 text-slate-950 shadow-md shadow-cyan-200/20"
+                : "bg-white/5 text-slate-300 border border-white/10 hover:border-cyan-300/30 hover:bg-white/10"
             }`}
           >
             <span>{tab.icon}</span> {tab.label}
@@ -115,7 +115,7 @@ export default function SmartDashboard({ token, user }) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="lg:col-span-2 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl p-6 text-white shadow-xl"
+              className="lg:col-span-2 theme-surface rounded-[2rem] p-6 text-white"
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -178,7 +178,7 @@ export default function SmartDashboard({ token, user }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+              className="theme-card rounded-[2rem] p-6"
             >
               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Water Efficiency</h3>
               <div className="flex justify-center mb-3">
@@ -207,7 +207,7 @@ export default function SmartDashboard({ token, user }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+              className="theme-card rounded-[2rem] p-6"
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">7-Day Water Prediction</h3>
@@ -284,7 +284,7 @@ export default function SmartDashboard({ token, user }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-green-100"
+            className="theme-surface rounded-[2rem] p-6"
           >
             <h3 className="text-sm font-bold text-green-700 uppercase tracking-wider mb-3">🧠 Algorithms Powering This Dashboard</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

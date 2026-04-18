@@ -46,7 +46,7 @@ export default function Support() {
         className="text-center mb-12"
       >
         <div className="text-6xl mb-4">🛠️</div>
-        <h1 className="text-5xl font-extrabold text-gray-800 mb-3">Support Center</h1>
+        <h1 className="theme-display text-5xl font-extrabold text-white mb-3">Support Center</h1>
         <p className="text-gray-500 text-lg max-w-xl mx-auto">
           Get help with your account, proposals, and water usage tracking.
         </p>
@@ -66,7 +66,7 @@ export default function Support() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             whileHover={{ y: -5 }}
-            className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center hover:shadow-xl transition-all block"
+            className="theme-card p-6 rounded-[1.5rem] text-center transition-all block"
           >
             <div className="text-4xl mb-3">{item.icon}</div>
             <h3 className="font-bold text-gray-800 mb-1">{item.title}</h3>
@@ -81,10 +81,10 @@ export default function Support() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 mb-12"
+        className="theme-card rounded-[1.5rem] p-6 mb-12"
       >
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-bold text-gray-800">Platform Status</h2>
+          <h2 className="theme-display text-xl font-bold text-white">Platform Status</h2>
           <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full border border-green-200">
             ● All Systems Operational
           </span>
@@ -109,12 +109,12 @@ export default function Support() {
         viewport={{ once: true }}
         className="mb-12"
       >
-        <h2 className="text-3xl font-extrabold text-gray-800 mb-6">Frequently Asked Questions</h2>
+        <h2 className="theme-display text-3xl font-extrabold text-white mb-6">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <motion.div
               key={i}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
+              className="theme-card rounded-[1.5rem] overflow-hidden"
             >
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -154,13 +154,13 @@ export default function Support() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="bg-gradient-to-r from-green-700 to-emerald-700 rounded-3xl p-10 text-white text-center"
+        className="bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 rounded-[2rem] p-10 text-slate-950 text-center"
       >
-        <h2 className="text-2xl font-extrabold mb-2">Still need help?</h2>
-        <p className="text-green-200 mb-5 text-sm">Our support team usually responds within 4 hours.</p>
+        <h2 className="theme-display text-2xl font-extrabold mb-2">Still need help?</h2>
+        <p className="text-slate-800 mb-5 text-sm">Our support team usually responds within 4 hours.</p>
         <a
           href="mailto:adityasharma89000@gmail.com"
-          className="inline-block bg-white text-green-700 px-8 py-3 rounded-xl font-bold hover:bg-green-50 transition-all hover:-translate-y-0.5 shadow-md"
+          className="inline-block rounded-2xl bg-slate-950 px-8 py-3 font-bold text-white transition-all hover:-translate-y-0.5 shadow-md"
         >
           📧 Email Us Now
         </a>

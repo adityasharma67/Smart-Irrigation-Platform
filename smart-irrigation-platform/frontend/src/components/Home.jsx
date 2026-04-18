@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Welcome Section with Hero Slider */}
-      <div className="relative h-screen overflow-hidden">
+      <div className="relative min-h-screen overflow-hidden bg-slate-950">
         <AnimatePresence mode="wait">
           <motion.img
             key={index}
@@ -74,15 +74,44 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Darkens the background image so text is easy to read */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.22),transparent_34%),radial-gradient(circle_at_top_right,rgba(16,185,129,0.18),transparent_28%),linear-gradient(180deg,rgba(2,6,23,0.45),rgba(2,6,23,0.82)_45%,rgba(2,6,23,0.94))]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:72px_72px] opacity-20" />
+
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="hidden xl:block absolute right-10 top-20 w-80 rounded-[2rem] border border-white/15 bg-white/10 p-4 shadow-2xl shadow-cyan-500/15 backdrop-blur-xl tilt-card"
+              style={{ transform: "perspective(1200px) rotateY(-12deg) rotateX(8deg)" }}
+            >
+              <div className="theme-display mb-3 text-sm uppercase tracking-[0.35em] text-cyan-200/80">Live field mode</div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/50">
+                <img src={images[(index + 1) % images.length]} alt="Field preview" className="h-52 w-full object-cover" />
+                <div className="grid grid-cols-3 gap-2 p-3 text-xs text-white/90">
+                  <div className="rounded-2xl bg-white/10 p-2 text-center backdrop-blur-md">
+                    <div className="text-lg font-bold text-cyan-200">98%</div>
+                    <div className="opacity-70">health</div>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 p-2 text-center backdrop-blur-md">
+                    <div className="text-lg font-bold text-emerald-200">42</div>
+                    <div className="opacity-70">alerts</div>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 p-2 text-center backdrop-blur-md">
+                    <div className="text-lg font-bold text-lime-200">7d</div>
+                    <div className="opacity-70">forecast</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
 
         {/* Main Hero Text and Buttons */}
-        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center px-4">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="text-center text-white px-6 max-w-4xl"
+              className="theme-card relative z-10 mx-auto max-w-4xl rounded-[2rem] px-6 py-10 text-center text-white sm:px-10 sm:py-12"
           >
             <motion.div
               initial={{ scale: 0, rotate: -20 }}
@@ -92,23 +121,23 @@ export default function Home() {
             >
               🌿
             </motion.div>
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-4 leading-tight tracking-tight">
+            <h1 className="theme-display text-5xl md:text-7xl font-extrabold mb-4 leading-tight tracking-tight">
               Smart Irrigation
               <span className="block text-emerald-400">Made Simple</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
               Connecting farmers with expert irrigation providers for smarter, sustainable crop growth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/register"
-                className="bg-emerald-500 hover:bg-emerald-400 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg hover:shadow-emerald-500/50 hover:-translate-y-1"
+                className="rounded-2xl bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 px-10 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(34,211,238,0.25)]"
               >
                 Get Started Free →
               </Link>
               <Link
                 to="/about"
-                className="border-2 border-white/70 text-white px-10 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 transition-all duration-300"
+                className="rounded-2xl border border-white/15 bg-white/5 px-10 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-white/10"
               >
                 Learn More
               </Link>
@@ -121,7 +150,7 @@ export default function Home() {
                   key={i}
                   onClick={() => setIndex(i)}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === index ? "w-8 bg-emerald-400" : "w-2 bg-white/40"
+                    i === index ? "w-8 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,0.7)]" : "w-2 bg-white/30"
                   }`}
                 />
               ))}
@@ -147,8 +176,8 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <span className="text-emerald-600 font-semibold text-sm uppercase tracking-widest">Features</span>
-          <h2 className="text-4xl font-extrabold text-gray-800 mt-2">
+          <span className="text-cyan-300 font-semibold text-sm uppercase tracking-[0.35em]">Features</span>
+          <h2 className="theme-display text-4xl font-extrabold text-white mt-2">
             Everything You Need to Irrigate Smarter
           </h2>
         </motion.div>
@@ -183,11 +212,11 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className={`bg-gradient-to-br ${f.bg} p-8 rounded-2xl border ${f.border} shadow-md hover:shadow-xl transition-all duration-300`}
+              whileHover={{ y: -10, scale: 1.03, rotateX: 5, rotateY: -5 }}
+              className="theme-surface p-8 rounded-[1.75rem] transition-all duration-300"
             >
               <div className="text-5xl mb-4">{f.icon}</div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">{f.title}</h3>
+              <h3 className="theme-display text-xl font-bold text-white mb-3">{f.title}</h3>
               <p className="text-gray-600 leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
@@ -195,7 +224,7 @@ export default function Home() {
       </div>
 
       {/* Step-by-Step Guide */}
-      <div className="bg-gradient-to-br from-green-800 to-emerald-900 py-20 px-4">
+      <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -203,8 +232,8 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <span className="text-emerald-300 font-semibold text-sm uppercase tracking-widest">Process</span>
-            <h2 className="text-4xl font-extrabold text-white mt-2">How It Works</h2>
+            <span className="text-cyan-300 font-semibold text-sm uppercase tracking-[0.35em]">Process</span>
+            <h2 className="theme-display text-4xl font-extrabold text-white mt-2">How It Works</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -221,12 +250,12 @@ export default function Home() {
                 {i < steps.length - 1 && (
                   <div className="hidden md:block absolute top-8 left-[60%] w-full h-0.5 bg-emerald-600/40" />
                 )}
-                <div className="bg-emerald-400/20 border border-emerald-400/30 text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-300/25 bg-cyan-300/10 text-3xl text-white shadow-[0_0_28px_rgba(34,211,238,0.18)]">
                   {s.icon}
                 </div>
-                <span className="text-emerald-400 font-bold text-xs tracking-widest">STEP {s.step}</span>
+                <span className="text-cyan-300 font-bold text-xs tracking-[0.35em]">STEP {s.step}</span>
                 <h3 className="text-white font-bold text-xl my-2">{s.title}</h3>
-                <p className="text-green-200 leading-relaxed text-sm">{s.desc}</p>
+                <p className="text-slate-300 leading-relaxed text-sm">{s.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -241,8 +270,8 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-emerald-600 font-semibold text-sm uppercase tracking-widest">Why Smart Farming Hub?</span>
-          <h2 className="text-4xl font-extrabold text-gray-800 mt-2">
+          <span className="text-cyan-300 font-semibold text-sm uppercase tracking-[0.35em]">Why Smart Farming Hub?</span>
+          <h2 className="theme-display text-4xl font-extrabold text-white mt-2">
             Beneficial For Everyone
           </h2>
         </motion.div>

@@ -16,24 +16,26 @@ export default function Navbar({ user, onLogout }) {
 
   // Consistent styling for our navigation links
   const navLink =
-    "hover:text-emerald-300 transition-colors duration-200 font-medium text-sm";
+    "rounded-full px-3 py-2 text-sm font-medium text-slate-300 transition-all duration-200 hover:bg-white/10 hover:text-cyan-200";
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-green-800 via-green-700 to-emerald-700 shadow-xl">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 shadow-[0_18px_60px_rgba(8,15,28,0.45)] backdrop-blur-2xl">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
         
         {/* Our App Logo and Name */}
         <Link
           to="/"
-          className="flex items-center gap-2 text-white font-extrabold text-xl tracking-tight"
+          className="flex items-center gap-3 text-white font-extrabold text-xl tracking-tight"
         >
-          <span className="text-2xl">🌿</span>
-          <span className="hidden sm:inline">Smart Farming Hub</span>
-          <span className="sm:hidden">Smart Farming Hub</span>
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 text-2xl shadow-lg shadow-cyan-500/20">
+            🌿
+          </span>
+          <span className="theme-display hidden sm:inline text-white">Smart Farming Hub</span>
+          <span className="theme-display sm:hidden text-white">Smart Hub</span>
         </Link>
 
         {/* Links shown on tablets and computers */}
-        <div className="hidden lg:flex items-center gap-6 text-white">
+        <div className="hidden lg:flex items-center gap-2 text-white">
           {user ? (
             <>
               {/* Logged in view */}
@@ -48,12 +50,12 @@ export default function Navbar({ user, onLogout }) {
               <Link to="/contact" className={navLink}>Contact</Link>
               <div className="flex items-center gap-3 ml-2">
                 {/* User's profile badge */}
-                <div className="bg-white/20 rounded-full px-3 py-1.5 text-sm font-medium">
+                <div className="theme-chip rounded-full px-3 py-1.5 text-sm font-medium">
                   👤 {user.name}
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500/80 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors"
+                  className="rounded-full border border-red-400/30 bg-red-500/15 px-4 py-1.5 text-sm font-semibold text-red-200 transition-colors hover:bg-red-500/25"
                 >
                   Logout
                 </button>
@@ -69,13 +71,13 @@ export default function Navbar({ user, onLogout }) {
               <div className="flex items-center gap-2 ml-2">
                 <Link
                   to="/login"
-                  className="border border-white/50 text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors"
+                  className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-emerald-400 text-green-900 px-4 py-1.5 rounded-lg text-sm font-bold hover:bg-emerald-300 transition-colors"
+                  className="rounded-full bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 px-4 py-1.5 text-sm font-bold text-slate-950 transition-all hover:-translate-y-0.5"
                 >
                   Register
                 </Link>
@@ -93,15 +95,15 @@ export default function Navbar({ user, onLogout }) {
           <div className="space-y-1.5">
             <motion.span
               animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-              className="block w-6 h-0.5 bg-white origin-center"
+              className="block h-0.5 w-6 origin-center bg-white"
             />
             <motion.span
               animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="block w-6 h-0.5 bg-white"
+              className="block h-0.5 w-6 bg-white"
             />
             <motion.span
               animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-              className="block w-6 h-0.5 bg-white origin-center"
+              className="block h-0.5 w-6 origin-center bg-white"
             />
           </div>
         </button>
@@ -114,7 +116,7 @@ export default function Navbar({ user, onLogout }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-green-900/95 backdrop-blur-sm border-t border-white/10 overflow-hidden"
+            className="lg:hidden overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-2xl"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3 text-white">
               {user ? (

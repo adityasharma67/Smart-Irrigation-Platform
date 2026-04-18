@@ -37,7 +37,7 @@ export default function Contact() {
         className="text-center mb-12"
       >
         <div className="text-6xl mb-4">📬</div>
-        <h1 className="text-5xl font-extrabold text-gray-800 mb-3">Get In Touch</h1>
+        <h1 className="theme-display text-5xl font-extrabold text-white mb-3">Get In Touch</h1>
         <p className="text-gray-500 text-lg max-w-xl mx-auto">
           Have questions, feedback, or partnership inquiries? We'd love to hear from you.
         </p>
@@ -49,9 +49,9 @@ export default function Contact() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100"
+          className="theme-card rounded-[2rem] p-8"
         >
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Send a Message</h2>
+          <h2 className="theme-display text-2xl font-bold text-white mb-6">Send a Message</h2>
 
           {/* Celebration message after a successful send */}
           {success && (
@@ -132,8 +132,8 @@ export default function Contact() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex flex-col gap-5"
         >
-          <div className="bg-gradient-to-br from-green-700 to-emerald-800 rounded-3xl p-8 text-white mb-2">
-            <h2 className="text-2xl font-bold mb-2">Contact Information</h2>
+          <div className="theme-surface rounded-[2rem] p-8 text-white mb-2">
+            <h2 className="theme-display text-2xl font-bold mb-2">Contact Information</h2>
             <p className="text-green-200 text-sm">Reach us directly through any of these channels.</p>
           </div>
 
@@ -143,7 +143,7 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.08 }}
-              className="bg-white rounded-2xl p-5 shadow-md border border-gray-100 flex items-center gap-4"
+              className="theme-card rounded-[1.5rem] p-5 flex items-center gap-4"
             >
               <div className="text-3xl bg-green-50 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
                 {c.icon}

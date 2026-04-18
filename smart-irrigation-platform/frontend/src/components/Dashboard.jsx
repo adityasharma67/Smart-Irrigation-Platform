@@ -111,7 +111,7 @@ export default function Dashboard({ token, user }) {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         {/* Welcome header with the user's name */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -119,7 +119,7 @@ export default function Dashboard({ token, user }) {
           className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
         >
           <div>
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-1">
+            <h2 className="theme-display text-4xl font-extrabold text-white mb-1">
               {user?.role === "farmer" ? "🌾 Farmer Dashboard" : "📊 Dashboard"}
             </h2>
             <p className="text-gray-500">
@@ -131,7 +131,7 @@ export default function Dashboard({ token, user }) {
           {user && (
             <Link
               to="/create-proposal"
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all font-bold shadow-md hover:shadow-green-400/30 hover:-translate-y-0.5"
+              className="rounded-2xl bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 px-6 py-3 font-bold text-slate-950 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(34,211,238,0.25)]"
             >
               + New Proposal
             </Link>
@@ -150,7 +150,8 @@ export default function Dashboard({ token, user }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className={`${s.color} border rounded-xl p-4 text-center`}
+              whileHover={{ y: -6, rotateX: 4, rotateY: -4 }}
+              className={`${s.color} border rounded-2xl p-4 text-center`}
             >
               <div className="text-2xl mb-1">{s.icon}</div>
               <div className="font-bold text-lg">{s.value}</div>
@@ -189,11 +190,11 @@ export default function Dashboard({ token, user }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.1 }}
-              whileHover={{ y: -5, scale: 1.02 }}
+              whileHover={{ y: -8, scale: 1.03, rotateX: 5, rotateY: -5 }}
             >
               <Link
                 to={card.link}
-                className={`block bg-gradient-to-br ${card.gradient} rounded-2xl p-5 text-white shadow-lg hover:shadow-xl transition-all duration-300`}
+                className={`block rounded-[1.75rem] bg-gradient-to-br ${card.gradient} p-5 text-white shadow-lg transition-all duration-300 hover:shadow-xl`}
               >
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-lg font-bold">{card.title}</h3>
@@ -222,10 +223,10 @@ export default function Dashboard({ token, user }) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100"
+            className="theme-card p-16 rounded-[2rem] text-center"
           >
             <div className="text-7xl mb-4 float-anim inline-block">🌾</div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">No Proposals Yet</h3>
+            <h3 className="theme-display text-2xl font-bold text-white mb-2">No Proposals Yet</h3>
             <p className="text-gray-500 mb-6">
               {user?.role === "provider"
                 ? "Create your first irrigation proposal to connect with farmers!"
@@ -247,9 +248,9 @@ export default function Dashboard({ token, user }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                whileHover={{ scale: 1.02, y: -5 }}
+                whileHover={{ scale: 1.03, y: -8, rotateX: 4, rotateY: -4 }}
                 key={p._id || p.id}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 overflow-hidden group"
+                className="theme-card rounded-[1.75rem] overflow-hidden group transition-all duration-300"
               >
                 {/* Visual preview of the proposal based on target crops and unique ID */}
                 <div className="relative aspect-video overflow-hidden">
@@ -319,18 +320,18 @@ export default function Dashboard({ token, user }) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
             onClick={() => setContactProposal(null)}
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl z-10"
+            className="relative theme-card rounded-[2rem] p-6 w-full max-w-md z-10"
           >
             <div className="text-4xl mb-3">📞</div>
-            <h3 className="text-2xl font-bold text-green-700 mb-1">Contact Provider</h3>
+            <h3 className="theme-display text-2xl font-bold text-white mb-1">Contact Provider</h3>
             <p className="text-gray-500 text-sm mb-5">Reach out to discuss this irrigation proposal.</p>
-            <div className="space-y-3 bg-green-50 rounded-xl p-4 border border-green-100">
+            <div className="space-y-3 rounded-2xl p-4 border border-white/10 bg-white/5">
               <div className="text-sm"><strong>Name:</strong> {contactProposal.proposer?.name}</div>
               <div className="text-sm"><strong>Role:</strong> {contactProposal.proposer?.role || "Provider"}</div>
               {contactProposal.proposer?.location && (
@@ -346,13 +347,13 @@ export default function Dashboard({ token, user }) {
             <div className="flex gap-3 justify-end mt-5">
               <button
                 onClick={() => navigator.clipboard?.writeText(contactProposal.proposer?.email || "")}
-                className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 text-sm font-medium"
+                className="px-4 py-2 rounded-lg bg-white/10 text-slate-200 hover:bg-white/15 text-sm font-medium"
               >
                 Copy Email
               </button>
               <a
                 href={`mailto:${contactProposal.proposer?.email}?subject=Interest in ${encodeURIComponent(contactProposal.title)}`}
-                className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 text-sm font-medium"
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 text-slate-950 hover:opacity-90 text-sm font-medium"
               >
                 Send Email
               </a>

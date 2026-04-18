@@ -116,12 +116,12 @@ export default function WaterUsage({ token, user }) {
         className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
       >
         <div>
-          <h2 className="text-4xl font-extrabold text-gray-800 mb-1">💧 Water Usage</h2>
+          <h2 className="theme-display text-4xl font-extrabold text-white mb-1">💧 Water Usage</h2>
           <p className="text-gray-500">Track and monitor irrigation water across all your fields.</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:from-blue-700 hover:to-cyan-700 transition-all hover:-translate-y-0.5"
+          className="rounded-2xl bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 px-6 py-3 font-bold text-slate-950 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(34,211,238,0.25)]"
         >
           {showForm ? "✕ Cancel" : "+ Add Entry"}
         </button>
@@ -170,9 +170,9 @@ export default function WaterUsage({ token, user }) {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 rounded-2xl shadow-xl mb-8 border border-blue-100"
+          className="theme-card p-6 rounded-[2rem] mb-8"
         >
-          <h3 className="text-xl font-bold text-blue-700 mb-5">💧 Add Water Usage Entry</h3>
+          <h3 className="theme-display text-xl font-bold text-white mb-5">💧 Add Water Usage Entry</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -228,9 +228,9 @@ export default function WaterUsage({ token, user }) {
         </div>
       ) : waterUsage.length === 0 ? (
         // What to show when there's no data yet
-        <div className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100">
+        <div className="theme-card p-16 rounded-[2rem] text-center">
           <div className="text-7xl mb-4 float-anim inline-block">💧</div>
-          <h3 className="text-2xl font-bold text-gray-700 mb-2">No Water Usage Data</h3>
+          <h3 className="theme-display text-2xl font-bold text-white mb-2">No Water Usage Data</h3>
           <p className="text-gray-500">Start tracking by adding your first field entry above.</p>
         </div>
       ) : (
@@ -242,7 +242,7 @@ export default function WaterUsage({ token, user }) {
               transition={{ delay: idx * 0.05 }}
               whileHover={{ scale: 1.02, y: -5 }}
               key={usage._id || usage.id}
-              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group"
+              className="theme-card rounded-[1.75rem] overflow-hidden group transition-all duration-300"
             >
               {/* Visual header for the card with the field name and status */}
               <div className="relative aspect-video overflow-hidden">

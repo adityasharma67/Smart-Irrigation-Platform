@@ -109,12 +109,12 @@ export default function Register({ onRegister }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
+          className="theme-card rounded-[2rem] overflow-hidden"
         >
           {/* A bright banner to welcome new members */}
-          <div className="bg-gradient-to-r from-green-700 to-emerald-600 p-8 text-white text-center">
+          <div className="bg-gradient-to-r from-slate-950 via-cyan-950 to-emerald-900 p-8 text-white text-center">
             <div className="text-5xl mb-3">🌱</div>
-            <h2 className="text-3xl font-extrabold mb-1">Create Account</h2>
+            <h2 className="theme-display text-3xl font-extrabold mb-1">Create Account</h2>
             <p className="text-green-100 text-sm">Join thousands of farmers and providers on Smart Farming Hub</p>
           </div>
 
