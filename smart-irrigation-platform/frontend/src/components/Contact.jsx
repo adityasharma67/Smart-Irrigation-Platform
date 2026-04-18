@@ -22,9 +22,9 @@ export default function Contact() {
 
   // Direct ways for users to reach us
   const contacts = [
-    { icon: "🌿", label: "Email", value: "adityasharma89000@gmail.com", href: "mailto:adityasharma89000@gmail.com" },
-    { icon: "🌿", label: "Phone", value: "+91 7007380157", href: "tel:7007380157" },
-    { icon: "🌿", label: "Location", value: "Uttar Pradesh, India", href: null },
+    { icon: "📧", label: "Email", value: "adityasharma89000@gmail.com", href: "mailto:adityasharma89000@gmail.com" },
+    { icon: "📞", label: "Phone", value: "+91 7007380157", href: "tel:7007380157" },
+    { icon: "📍", label: "Location", value: "Uttar Pradesh, India", href: null },
     { icon: "⏰", label: "Support Hours", value: "Mon-Sat, 9 AM - 6 PM IST", href: null },
   ];
 
@@ -36,7 +36,7 @@ export default function Contact() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <div className="text-6xl mb-4">🌿</div>
+        <div className="text-6xl mb-4">📬</div>
         <h1 className="theme-display text-5xl font-extrabold text-white mb-3">Get In Touch</h1>
         <p className="text-gray-500 text-lg max-w-xl mx-auto">
           Have questions, feedback, or partnership inquiries? We'd love to hear from you.
@@ -60,7 +60,7 @@ export default function Contact() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-5 text-sm"
             >
-               Message sent successfully! We'll get back to you within 24 hours.
+              ✅ Message sent successfully! We'll get back to you within 24 hours.
             </motion.div>
           )}
 

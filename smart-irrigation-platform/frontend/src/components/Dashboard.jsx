@@ -141,9 +141,9 @@ export default function Dashboard({ token, user }) {
         {/* Quick stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { label: "Active Proposals", value: activeCount, icon: "🌿", color: "bg-green-50 border-green-200 text-green-700" },
-            { label: "My Role", value: user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "—", icon: "🌿", color: "bg-blue-50 border-blue-200 text-blue-700" },
-            { label: "Location", value: user?.location || "Not set", icon: "🌿", color: "bg-amber-50 border-amber-200 text-amber-700" },
+            { label: "Active Proposals", value: activeCount, icon: "📋", color: "bg-green-50 border-green-200 text-green-700" },
+            { label: "My Role", value: user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "—", icon: "👤", color: "bg-blue-50 border-blue-200 text-blue-700" },
+            { label: "Location", value: user?.location || "Not set", icon: "📍", color: "bg-amber-50 border-amber-200 text-amber-700" },
           ].map((s, i) => (
             <motion.div
               key={i}
@@ -164,21 +164,21 @@ export default function Dashboard({ token, user }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {[
             {
-              title: " Smart Analytics",
+              title: "🧠 Smart Analytics",
               desc: "AI-powered weather integration, sensor data analysis, and ML predictions for optimal irrigation.",
               link: "/smart-dashboard",
               gradient: "from-emerald-500 to-teal-600",
               badge: "ML & AI",
             },
             {
-              title: " Crop Advisor",
+              title: "🌾 Crop Advisor",
               desc: "FAO-standard crop database with growth stages, Kc coefficients, and water calculators for 15+ crops.",
               link: "/crop-advisor",
               gradient: "from-green-500 to-emerald-600",
               badge: "15+ Crops",
             },
             {
-              title: " Smart Schedule",
+              title: "📅 Smart Schedule",
               desc: "Weather-aware irrigation scheduling with Penman-Monteith ET₀, priority scoring, and savings analysis.",
               link: "/smart-dashboard",
               gradient: "from-blue-500 to-cyan-600",
@@ -225,7 +225,7 @@ export default function Dashboard({ token, user }) {
             animate={{ opacity: 1 }}
             className="theme-card p-16 rounded-[2rem] text-center"
           >
-            <div className="text-7xl mb-4 float-anim inline-block">🌿</div>
+            <div className="text-7xl mb-4 float-anim inline-block">🌾</div>
             <h3 className="theme-display text-2xl font-bold text-white mb-2">No Proposals Yet</h3>
             <p className="text-gray-500 mb-6">
               {user?.role === "provider"
@@ -328,7 +328,7 @@ export default function Dashboard({ token, user }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             className="relative theme-card rounded-[2rem] p-6 w-full max-w-md z-10"
           >
-            <div className="text-4xl mb-3">🌿</div>
+            <div className="text-4xl mb-3">📞</div>
             <h3 className="theme-display text-2xl font-bold text-white mb-1">Contact Provider</h3>
             <p className="text-gray-500 text-sm mb-5">Reach out to discuss this irrigation proposal.</p>
             <div className="space-y-3 rounded-2xl p-4 border border-white/10 bg-white/5">

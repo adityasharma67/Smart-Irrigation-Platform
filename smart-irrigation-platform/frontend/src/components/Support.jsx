@@ -45,7 +45,7 @@ export default function Support() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <div className="text-6xl mb-4">🌿</div>
+        <div className="text-6xl mb-4">🛠️</div>
         <h1 className="theme-display text-5xl font-extrabold text-white mb-3">Support Center</h1>
         <p className="text-gray-500 text-lg max-w-xl mx-auto">
           Get help with your account, proposals, and water usage tracking.
@@ -55,9 +55,9 @@ export default function Support() {
       {/* Quick ways to get help */}
       <div className="grid md:grid-cols-3 gap-5 mb-12">
         {[
-          { icon: "🌿", title: "Email Support", desc: "adityasharma89000@gmail.com", href: "mailto:adityasharma89000@gmail.com", cta: "Send Email" },
-          { icon: "🌿", title: "Phone Support", desc: "+91 7007380157", href: "tel:7007380157", cta: "Call Now" },
-          { icon: "🌿", title: "Documentation", desc: "Read our setup and usage guides", href: "/about", cta: "View Docs" },
+          { icon: "📧", title: "Email Support", desc: "adityasharma89000@gmail.com", href: "mailto:adityasharma89000@gmail.com", cta: "Send Email" },
+          { icon: "📞", title: "Phone Support", desc: "+91 7007380157", href: "tel:7007380157", cta: "Call Now" },
+          { icon: "💬", title: "Documentation", desc: "Read our setup and usage guides", href: "/about", cta: "View Docs" },
         ].map((item, i) => (
           <motion.a
             key={i}
@@ -162,7 +162,7 @@ export default function Support() {
           href="mailto:adityasharma89000@gmail.com"
           className="inline-block rounded-2xl bg-slate-950 px-8 py-3 font-bold text-white transition-all hover:-translate-y-0.5 shadow-md"
         >
-           Email Us Now
+          📧 Email Us Now
         </a>
       </motion.div>
     </div>

@@ -113,7 +113,7 @@ export default function Register({ onRegister }) {
         >
           {/* A bright banner to welcome new members */}
           <div className="bg-gradient-to-r from-slate-950 via-cyan-950 to-emerald-900 p-8 text-white text-center">
-            <div className="text-5xl mb-3">🌿</div>
+            <div className="text-5xl mb-3">🌱</div>
             <h2 className="theme-display text-3xl font-extrabold mb-1">Create Account</h2>
             <p className="text-green-100 text-sm">Join thousands of farmers and providers on Smart Farming Hub</p>
           </div>

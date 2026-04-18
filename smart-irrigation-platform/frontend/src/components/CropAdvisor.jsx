@@ -21,9 +21,9 @@ const SOIL_OPTIONS = [
 
 // Crop emojis for visual flair
 const CROP_ICONS = {
-  wheat: "", rice: "", corn: "", barley: "", sugarcane: "",
-  cotton: "", soybean: "", potato: "", tomato: "", onion: "",
-  groundnut: "", mustard: "", chickpea: "", millet: "", sorghum: "",
+  wheat: "🌾", rice: "🍚", corn: "🌽", barley: "🌿", sugarcane: "🎋",
+  cotton: "☁️", soybean: "🫘", potato: "🥔", tomato: "🍅", onion: "🧅",
+  groundnut: "🥜", mustard: "🌼", chickpea: "🟤", millet: "🌱", sorghum: "🌿",
 };
 
 export default function CropAdvisor({ token, user }) {
@@ -103,7 +103,7 @@ export default function CropAdvisor({ token, user }) {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-1"> Crop Irrigation Advisor</h2>
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-1">🌾 Crop Irrigation Advisor</h2>
         <p className="text-gray-500">
           Science-backed irrigation parameters for {crops.length}+ crops — 
           Based on <span className="font-semibold text-green-700">FAO Paper 56</span> standards
@@ -161,7 +161,7 @@ export default function CropAdvisor({ token, user }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Growth Stages Timeline */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4"> Growth Stages & Crop Coefficients (Kc)</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🌱 Growth Stages & Crop Coefficients (Kc)</h3>
               
               {/* Visual timeline */}
               <div className="relative mb-6">
@@ -211,7 +211,7 @@ export default function CropAdvisor({ token, user }) {
 
             {/* Water Calculator */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4"> Water Requirement Calculator</h3>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">🧮 Water Requirement Calculator</h3>
               
               <div className="space-y-4 mb-6">
                 <div>
@@ -372,7 +372,7 @@ export default function CropAdvisor({ token, user }) {
       {/* No selection placeholder */}
       {!selectedCrop && !loading && (
         <div className="bg-white p-16 rounded-2xl shadow-lg text-center border border-gray-100">
-          <div className="text-7xl mb-4">🌿</div>
+          <div className="text-7xl mb-4">🌾</div>
           <h3 className="text-2xl font-bold text-gray-700 mb-2">Select a Crop Above</h3>
           <p className="text-gray-500">Choose from our database of {crops.length}+ crops to see detailed irrigation parameters and calculate water needs.</p>
         </div>

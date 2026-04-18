@@ -78,7 +78,7 @@ export default function CreateProposal({ token }) {
       >
         {/* Top banner to set the mood */}
         <div className="bg-gradient-to-r from-slate-950 via-cyan-950 to-emerald-900 p-8 text-white">
-          <div className="text-4xl mb-3">🌿</div>
+          <div className="text-4xl mb-3">📝</div>
           <h2 className="theme-display text-3xl font-extrabold mb-1">Create Proposal</h2>
           <p className="text-green-100 text-sm">Offer your irrigation solution to farmers across India</p>
         </div>
@@ -245,7 +245,7 @@ export default function CreateProposal({ token }) {
             className="relative bg-white rounded-2xl p-8 w-full max-lg shadow-2xl z-10"
           >
             <div className="text-center mb-4">
-              <div className="text-5xl mb-3">🌿</div>
+              <div className="text-5xl mb-3">🎉</div>
               <h3 className="text-2xl font-bold text-green-700">Proposal Created!</h3>
               <p className="text-gray-500 text-sm mt-2">
                 "{createdPayload.title}" is now live and visible to farmers.

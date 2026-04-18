@@ -116,7 +116,7 @@ export default function WaterUsage({ token, user }) {
         className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
       >
         <div>
-          <h2 className="theme-display text-4xl font-extrabold text-white mb-1"> Water Usage</h2>
+          <h2 className="theme-display text-4xl font-extrabold text-white mb-1">💧 Water Usage</h2>
           <p className="text-gray-500">Track and monitor irrigation water across all your fields.</p>
         </div>
         <button
@@ -131,10 +131,10 @@ export default function WaterUsage({ token, user }) {
       {!loading && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { label: "Total Liters", value: totalLiters.toLocaleString(), icon: "🌿", color: "bg-blue-50 text-blue-700 border-blue-200" },
-            { label: "Optimal Fields", value: optimalCount, icon: "🌿", color: "bg-green-50 text-green-700 border-green-200" },
-            { label: "High Usage", value: highCount, icon: "🌿", color: "bg-red-50 text-red-700 border-red-200" },
-            { label: "Low Usage", value: lowCount, icon: "🌿", color: "bg-yellow-50 text-yellow-700 border-yellow-200" },
+            { label: "Total Liters", value: totalLiters.toLocaleString(), icon: "💧", color: "bg-blue-50 text-blue-700 border-blue-200" },
+            { label: "Optimal Fields", value: optimalCount, icon: "✅", color: "bg-green-50 text-green-700 border-green-200" },
+            { label: "High Usage", value: highCount, icon: "⚠️", color: "bg-red-50 text-red-700 border-red-200" },
+            { label: "Low Usage", value: lowCount, icon: "🔻", color: "bg-yellow-50 text-yellow-700 border-yellow-200" },
           ].map((s, i) => (
             <motion.div
               key={i}
@@ -172,7 +172,7 @@ export default function WaterUsage({ token, user }) {
           animate={{ opacity: 1, y: 0 }}
           className="theme-card p-6 rounded-[2rem] mb-8"
         >
-          <h3 className="theme-display text-xl font-bold text-white mb-5"> Add Water Usage Entry</h3>
+          <h3 className="theme-display text-xl font-bold text-white mb-5">💧 Add Water Usage Entry</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -205,9 +205,9 @@ export default function WaterUsage({ token, user }) {
                   value={form.status}
                   onChange={(e) => setForm({ ...form, status: e.target.value })}
                 >
-                  <option value="Optimal"> Optimal</option>
-                  <option value="High"> High</option>
-                  <option value="Low"> Low</option>
+                  <option value="Optimal">✅ Optimal</option>
+                  <option value="High">⚠️ High</option>
+                  <option value="Low">🔻 Low</option>
                 </select>
               </div>
             </div>
@@ -229,7 +229,7 @@ export default function WaterUsage({ token, user }) {
       ) : waterUsage.length === 0 ? (
         // What to show when there's no data yet
         <div className="theme-card p-16 rounded-[2rem] text-center">
-          <div className="text-7xl mb-4 float-anim inline-block">🌿</div>
+          <div className="text-7xl mb-4 float-anim inline-block">💧</div>
           <h3 className="theme-display text-2xl font-bold text-white mb-2">No Water Usage Data</h3>
           <p className="text-gray-500">Start tracking by adding your first field entry above.</p>
         </div>
