@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { isMongoConnected } = require("../db/index.js");
 const User = require("../models/User");
-const { inMemoryUsers } = require("../storage/inMemory");
+const { inMemoryUsers, persistInMemoryUsers, findInMemoryUserByEmail } = require("../storage/inMemory");
 require("dotenv").config();
 
 // We use a secret key to sign our security tokens (JWT)
@@ -14,6 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-producti
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password, role, location, cropType } = req.body;
+    const normalizedEmail = String(email || "").trim().toLowerCase();
 
     // We need at least a name, email, and password to create an account
     if (!name || !email || !password) {
@@ -22,11 +23,11 @@ router.post("/register", async (req, res) => {
 
     if (isMongoConnected()) {
       // If our database is online, we check for duplicates and save the new user securely
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email: normalizedEmail });
       if (existingUser) return res.status(400).json({ message: "An account with this email already exists" });
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new User({ name, email, password: hashedPassword, role: role || "farmer", location, cropType });
+      const user = new User({ name, email: normalizedEmail, password: hashedPassword, role: role || "farmer", location, cropType });
       await user.save();
 
       // We give the new user a token so they're logged in immediately upon registration
@@ -34,10 +35,11 @@ router.post("/register", async (req, res) => {
       res.json({ message: "Registration successful", token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
     } else {
       // If the database is down, we use a temporary list to let them test the platform
-      if (inMemoryUsers.find(u => u.email === email)) return res.status(400).json({ message: "Account already exists in our temporary storage" });
+      if (findInMemoryUserByEmail(normalizedEmail)) return res.status(400).json({ message: "Account already exists in our temporary storage" });
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = { id: Date.now().toString(), name, email, password: hashedPassword, role: role || "farmer", location, cropType };
+      const newUser = { id: Date.now().toString(), name, email: normalizedEmail, password: hashedPassword, role: role || "farmer", location, cropType };
       inMemoryUsers.push(newUser);
+      persistInMemoryUsers();
       
       const token = jwt.sign({ userId: newUser.id, email: newUser.email, role: newUser.role }, JWT_SECRET, { expiresIn: "7d" });
       res.json({ message: "Registration successful (Temporary)", token, user: { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role } });
@@ -52,11 +54,12 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = String(email || "").trim().toLowerCase();
     if (!email || !password) return res.status(400).json({ message: "Both email and password are required to log in" });
 
     if (isMongoConnected()) {
       // We look for the user's account in our database
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: normalizedEmail });
       if (!user) return res.status(401).json({ message: "We couldn't find an account with that email" });
 
       // We verify their password against the encrypted version we have
@@ -68,8 +71,12 @@ router.post("/login", async (req, res) => {
       res.json({ message: "Welcome back!", token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
     } else {
       // If the database is offline, we check our temporary visit list
-      const user = inMemoryUsers.find(u => u.email === email);
-      if (!user) return res.status(401).json({ message: "No temporary account found with that email" });
+      const user = findInMemoryUserByEmail(normalizedEmail);
+      if (!user) {
+        return res.status(401).json({
+          message: "No account found with that email in fallback storage. Please register again, or connect MongoDB for persistent accounts.",
+        });
+      }
       
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) return res.status(401).json({ message: "Incorrect temporary password" });
