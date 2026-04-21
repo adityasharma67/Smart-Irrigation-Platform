@@ -114,7 +114,13 @@ function App() {
             />
             <Route
               path="/create-proposal"
-              element={token ? <CreateProposal token={token} /> : <Navigate to="/login" replace />}
+              element={
+                token ? (
+                  user?.role === "provider" ? <CreateProposal token={token} /> : <Navigate to="/dashboard" replace />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
             <Route
               path="/water-usage"

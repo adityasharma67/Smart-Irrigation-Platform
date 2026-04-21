@@ -128,7 +128,7 @@ export default function Dashboard({ token, user }) {
             </p>
           </div>
           {/* Service providers see a button to create new listings */}
-          {user && (
+          {user?.role === "provider" && (
             <Link
               to="/create-proposal"
               className="rounded-2xl bg-gradient-to-r from-cyan-300 via-emerald-300 to-lime-300 px-6 py-3 font-bold text-slate-950 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(34,211,238,0.25)]"

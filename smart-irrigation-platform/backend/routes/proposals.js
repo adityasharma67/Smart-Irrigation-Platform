@@ -28,6 +28,10 @@ router.get("/", async (req, res) => {
 // This endpoint allows authenticated service providers to create new service offers
 router.post("/", authenticateToken, async (req, res) => {
   try {
+    if (req.user?.role !== "provider") {
+      return res.status(403).json({ message: "Only providers can create proposals" });
+    }
+
     const { title, description, price, targetCrops } = req.body;
     
     // Every proposal needs a clear title and a set price
