@@ -16,6 +16,7 @@ const axios = require("axios");
 
 const API_KEY = process.env.OPENWEATHER_API_KEY || "";
 const BASE_URL = "https://api.openweathermap.org/data/2.5";
+const STRICT_WEATHER_MODE = String(process.env.STRICT_WEATHER_MODE || "false").toLowerCase() === "true";
 
 // Simple in-memory cache with TTL (Time To Live)
 const cache = new Map();
@@ -90,7 +91,12 @@ function generateMockWeather(location) {
  * @returns {object} Weather data
  */
 async function getCurrentWeather(location) {
-  if (!location) return generateMockWeather("Unknown");
+  if (!location) {
+    if (STRICT_WEATHER_MODE) {
+      throw new Error("Location is required when STRICT_WEATHER_MODE is enabled");
+    }
+    return generateMockWeather("Unknown");
+  }
 
   const cacheKey = `weather_${location}`;
   const cached = getCached(cacheKey);
@@ -98,6 +104,9 @@ async function getCurrentWeather(location) {
 
   // If no API key, return mock data
   if (!API_KEY) {
+    if (STRICT_WEATHER_MODE) {
+      throw new Error("OPENWEATHER_API_KEY is required when STRICT_WEATHER_MODE is enabled");
+    }
     const mock = generateMockWeather(location);
     setCache(cacheKey, mock);
     return mock;
@@ -158,6 +167,10 @@ async function getCurrentWeather(location) {
 
     const result = {
       location: current.name || location,
+      coordinates: {
+        lat: current.coord?.lat,
+        lon: current.coord?.lon,
+      },
       current: {
         temperature: current.main.temp,
         feelsLike: current.main.feels_like,
@@ -181,6 +194,9 @@ async function getCurrentWeather(location) {
     return result;
   } catch (error) {
     console.error("Weather API error:", error.message);
+    if (STRICT_WEATHER_MODE) {
+      throw new Error(`Weather service unavailable for location '${location}': ${error.message}`);
+    }
     // Fallback to mock on API error
     const mock = generateMockWeather(location);
     setCache(cacheKey, mock);

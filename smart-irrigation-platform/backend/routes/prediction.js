@@ -6,13 +6,18 @@ const { getCurrentWeather } = require("../services/weather");
 // Predicts water needs for the next 7 days for a specific crop
 router.get("/:cropType", async (req, res) => {
   try {
-    const { soilType, area, plantingDate, location } = req.query;
+    const { soilType, area, plantingDate, location, lat, lon } = req.query;
+    const requestedLocation = location || (lat && lon ? `${lat},${lon}` : null);
 
     // Optionally fetch weather forecast if location provided
     let weatherForecast = null;
-    if (location) {
-      weatherForecast = await getCurrentWeather(location);
+    if (requestedLocation) {
+      weatherForecast = await getCurrentWeather(requestedLocation);
     }
+
+    const latitude = Number.isFinite(parseFloat(lat))
+      ? parseFloat(lat)
+      : (weatherForecast?.coordinates?.lat ?? 20);
 
     const prediction = predictWaterNeeds({
       cropType: req.params.cropType,
@@ -20,6 +25,7 @@ router.get("/:cropType", async (req, res) => {
       areaHectares: parseFloat(area) || 1,
       plantingDate: plantingDate || null,
       weatherForecast,
+      latitude,
     });
 
     res.json(prediction);
@@ -32,18 +38,20 @@ router.get("/:cropType", async (req, res) => {
 // Generates a personalized schedule based on user's crops and location
 router.get("/schedule/:userId", async (req, res) => {
   try {
-    const { cropType, location, soilType, area, plantingDate } = req.query;
+    const { cropType, location, soilType, area, plantingDate, lat, lon } = req.query;
+    const requestedLocation = location || (lat && lon ? `${lat},${lon}` : null);
 
     let weatherForecast = null;
-    if (location) {
-      weatherForecast = await getCurrentWeather(location);
+    if (requestedLocation) {
+      weatherForecast = await getCurrentWeather(requestedLocation);
     }
 
-    // Generate sample historical data for the prediction engine
-    const historicalUsage = Array.from({ length: 14 }, (_, i) => ({
-      date: new Date(Date.now() - (14 - i) * 86400000).toISOString(),
-      litersUsed: 3000 + Math.sin(i * 0.5) * 800 + Math.random() * 400,
-    }));
+    const latitude = Number.isFinite(parseFloat(lat))
+      ? parseFloat(lat)
+      : (weatherForecast?.coordinates?.lat ?? 20);
+
+    // Use persisted history when available; keep empty instead of random synthetic values
+    const historicalUsage = [];
 
     const prediction = predictWaterNeeds({
       cropType: cropType || "wheat",
@@ -52,6 +60,7 @@ router.get("/schedule/:userId", async (req, res) => {
       areaHectares: parseFloat(area) || 1,
       plantingDate: plantingDate || null,
       weatherForecast,
+      latitude,
     });
 
     res.json(prediction);

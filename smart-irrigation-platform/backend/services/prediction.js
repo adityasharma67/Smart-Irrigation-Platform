@@ -164,9 +164,10 @@ function penmanMonteithET0(tempMax, tempMin, humidity = 60, windSpeed = 2, solar
  * @param {string} params.soilType - Soil type identifier
  * @param {number} params.areaHectares - Field area
  * @param {Date} params.plantingDate - When crop was planted
+ * @param {number} params.latitude - Latitude used for ET₀ radiation estimate
  * @returns {object} 7-day prediction with daily recommendations
  */
-function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherForecast = null, soilType = "loam", areaHectares = 1, plantingDate = null }) {
+function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherForecast = null, soilType = "loam", areaHectares = 1, plantingDate = null, latitude = 20 }) {
   const crop = CROP_DATABASE[cropType.toLowerCase()] || CROP_DATABASE.wheat;
   const soil = SOIL_TYPES[soilType] || SOIL_TYPES.loam;
   
@@ -199,7 +200,7 @@ function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherFo
     const targetDate = new Date(now);
     targetDate.setDate(targetDate.getDate() + day);
     
-    // Base ET₀ estimation from weather forecast or defaults
+    // Base ET₀ estimation from weather forecast or deterministic defaults
     let tempMax = 32, tempMin = 22, humidity = 60, windSpeed = 3, rainExpected = 0;
     
     if (weatherForecast && weatherForecast.forecast && weatherForecast.forecast[day]) {
@@ -210,15 +211,14 @@ function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherFo
       windSpeed = fc.windSpeed || windSpeed;
       rainExpected = fc.rainVolume || 0;
     } else {
-      // Add some variation for demo
-      tempMax += Math.sin(day * 0.5) * 3 + (Math.random() * 2 - 1);
-      tempMin += Math.sin(day * 0.5) * 2 + (Math.random() * 2 - 1);
+      // Deterministic fallback (no random noise) to keep outputs stable across runs
+      tempMax += Math.sin(day * 0.5) * 3;
+      tempMin += Math.sin(day * 0.5) * 2;
       humidity += Math.sin(day * 0.7) * 10;
-      rainExpected = Math.random() > 0.7 ? Math.random() * 15 : 0;
     }
     
     // Calculate ET₀ using Penman-Monteith
-    const et0 = penmanMonteithET0(tempMax, tempMin, humidity, windSpeed);
+    const et0 = penmanMonteithET0(tempMax, tempMin, humidity, windSpeed, null, latitude);
     
     // Crop water requirement: ETc = Kc × ET₀
     const etc = kc * et0;
@@ -255,7 +255,7 @@ function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherFo
       netIrrigationNeed: Math.round(netIrrigationNeed * 100) / 100,
       litersNeeded: finalPrediction,
       shouldIrrigate,
-      confidence: trendAnalysis ? Math.round((0.5 + trendAnalysis.rSquared * 0.5) * 100) : 65,
+      confidence: weatherForecast ? (trendAnalysis ? Math.round((0.5 + trendAnalysis.rSquared * 0.5) * 100) : 70) : 55,
       weather: { tempMax: Math.round(tempMax * 10) / 10, tempMin: Math.round(tempMin * 10) / 10, humidity: Math.round(humidity), windSpeed: Math.round(windSpeed * 10) / 10 },
     });
   }
@@ -277,6 +277,10 @@ function predictWaterNeeds({ cropType = "wheat", historicalUsage = [], weatherFo
     area: areaHectares,
     currentStage: growthStage ? growthStage.stage : "mid (assumed)",
     cropCoefficient: kc,
+    locationContext: {
+      latitude,
+      weatherSource: weatherForecast?.source || "default",
+    },
     predictions,
     summary: {
       totalWaterNeeded,

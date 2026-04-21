@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import logoSmartFarmingHub from "../assets/logo-smart-farming-hub.svg";
 
 export default function Navbar({ user, onLogout }) {
   const navigate = useNavigate();
@@ -28,20 +29,7 @@ export default function Navbar({ user, onLogout }) {
           className="flex items-center gap-3 text-white font-extrabold text-xl tracking-tight"
         >
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 text-2xl shadow-lg shadow-cyan-500/20">
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className="h-6 w-6 text-cyan-200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 21V12" />
-              <path d="M12 12c0-5 3-8 8-9-1 5-4 8-8 9Z" />
-              <path d="M12 15c0-4-2.5-6.5-7-7.5 1 4.5 3.5 7 7 7.5Z" />
-            </svg>
+            <img src={logoSmartFarmingHub} alt="Smart Farming Hub" className="h-8 w-8 rounded-xl object-cover" />
           </span>
           <span className="theme-display hidden sm:inline text-white">Smart Farming Hub</span>
           <span className="theme-display sm:hidden text-white">Smart Hub</span>

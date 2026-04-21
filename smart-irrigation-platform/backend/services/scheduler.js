@@ -23,9 +23,10 @@ const { penmanMonteithET0 } = require("./prediction");
  * @param {Array} params.fields - Array of { name, cropType, soilType, areaHa, plantingDate, currentMoisture }
  * @param {object} params.weather - Weather data with forecast
  * @param {number} params.daysAhead - How many days to schedule (default: 7)
+ * @param {number} params.latitude - Latitude for ET₀ estimation
  * @returns {object} Complete schedule with daily recommendations
  */
-function generateSchedule({ fields = [], weather = null, daysAhead = 7 } = {}) {
+function generateSchedule({ fields = [], weather = null, daysAhead = 7, latitude = 20 } = {}) {
   if (fields.length === 0) {
     // Demo fields for showcase
     fields = [
@@ -51,9 +52,9 @@ function generateSchedule({ fields = [], weather = null, daysAhead = 7 } = {}) {
     let dayWeather = {
       tempMax: 32 + Math.sin(day * 0.5) * 3,
       tempMin: 22 + Math.sin(day * 0.5) * 2,
-      humidity: 55 + Math.random() * 20,
-      windSpeed: 3 + Math.random() * 8,
-      rainProbability: Math.round(Math.random() * 60),
+      humidity: 62 + Math.sin(day * 0.7) * 8,
+      windSpeed: 4 + Math.cos(day * 0.4) * 2,
+      rainProbability: 20,
       rainVolume: 0,
     };
 
@@ -76,7 +77,9 @@ function generateSchedule({ fields = [], weather = null, daysAhead = 7 } = {}) {
       dayWeather.tempMax,
       dayWeather.tempMin,
       dayWeather.humidity,
-      dayWeather.windSpeed
+      dayWeather.windSpeed,
+      null,
+      latitude
     );
 
     // Process each field
@@ -182,7 +185,7 @@ function generateSchedule({ fields = [], weather = null, daysAhead = 7 } = {}) {
         rainVolume: Math.round((dayWeather.rainVolume || 0) * 10) / 10,
         rainExpected,
       },
-      et0: Math.round(penmanMonteithET0(dayWeather.tempMax, dayWeather.tempMin, dayWeather.humidity, dayWeather.windSpeed) * 100) / 100,
+      et0: Math.round(penmanMonteithET0(dayWeather.tempMax, dayWeather.tempMin, dayWeather.humidity, dayWeather.windSpeed, null, latitude) * 100) / 100,
       fields: fieldSchedules,
       totalLitersForDay: fieldSchedules.reduce((sum, f) => sum + (f.shouldIrrigate ? f.litersNeeded : 0), 0),
       fieldsToIrrigate: fieldSchedules.filter(f => f.shouldIrrigate).length,
@@ -194,6 +197,10 @@ function generateSchedule({ fields = [], weather = null, daysAhead = 7 } = {}) {
     generatedAt: now.toISOString(),
     daysScheduled: daysAhead,
     fieldCount: fields.length,
+    locationContext: {
+      latitude,
+      weatherSource: weather?.source || "default",
+    },
     schedule,
     summary: {
       totalWaterScheduled: Math.round(totalWaterScheduled),
