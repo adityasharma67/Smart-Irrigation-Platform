@@ -4,6 +4,7 @@ node_modules/
 # Build outputs
 build/
 dist/
+.next/
 *.log
 
 # Environment variables

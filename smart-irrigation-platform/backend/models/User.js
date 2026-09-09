@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   // Roles help us tailor the experience (Farmer, Service Provider, or Manufacturer)
-  role: { type: String, enum: ["farmer", "provider", "manufacturer"], default: "farmer" },
+  role: { type: String, enum: ["farmer", "provider", "manufacturer", "admin"], default: "farmer" },
   location: String,
   cropType: String,
 }, { timestamps: true }); // Automatically record when the user joined and when they last updated their profile

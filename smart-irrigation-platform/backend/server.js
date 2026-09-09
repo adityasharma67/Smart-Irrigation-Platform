@@ -19,6 +19,8 @@ const predictionRoutes = require("./routes/prediction");
 const cropsRoutes = require("./routes/crops");
 const analyticsRoutes = require("./routes/analytics");
 const scheduleRoutes = require("./routes/schedule");
+const farmHubRoutes = require("./routes/farmHub");
+const { sendError } = require("./utils/api");
 
 const app = express();
 
@@ -59,6 +61,7 @@ app.use("/api/predictions", predictionRoutes);
 app.use("/api/crops", cropsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/schedule", scheduleRoutes);
+app.use("/api/v1", farmHubRoutes);
 
 // A simple way to check if the server is healthy and if MongoDB is happy
 app.get("/api/health", (req, res) => {
@@ -66,12 +69,17 @@ app.get("/api/health", (req, res) => {
 });
 
 // Help the server find the frontend files once they're built
-const frontendBuildPath = path.join(__dirname, "../frontend/build");
-app.use(express.static(frontendBuildPath));
+const frontendBuildPath = path.join(__dirname, "../frontend/out");
+if (require("fs").existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, "index.html"));
+  });
+}
 
-// For all other web requests, just send back the main frontend page
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendBuildPath, "index.html"));
+app.use((error, req, res, next) => {
+  if (res.headersSent) return next(error);
+  return sendError(res, error);
 });
 
 // Start listening for visitors on the designated port
