@@ -49,6 +49,8 @@ connectDB();
 // Pull in some temporary storage in case the database isn't ready
 const { inMemoryUsers, inMemoryProposals, inMemoryWaterUsage } = require("./storage/inMemory");
 
+const frontendBuildPath = path.join(__dirname, "../frontend/out");
+
 // Connect all our specific feature routes to the main app
 app.use("/api/auth", authRoutes);
 app.use("/api/proposals", proposalsRoutes);
@@ -68,8 +70,15 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", mongoConnected: isMongoConnected() });
 });
 
+app.get("/", (req, res, next) => {
+  if (require("fs").existsSync(frontendBuildPath)) return next();
+  res.status(503).json({
+    status: "error",
+    message: "Frontend build is not available. Check the Render build command."
+  });
+});
+
 // Help the server find the frontend files once they're built
-const frontendBuildPath = path.join(__dirname, "../frontend/out");
 if (require("fs").existsSync(frontendBuildPath)) {
   app.use(express.static(frontendBuildPath));
   app.get("*", (req, res) => {
